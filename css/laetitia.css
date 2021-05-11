@@ -1,8 +1,20 @@
-html body {
+body {
   font-size: 18px;
   text-align: center;
   font-family: 'Raleway', sans-serif; 
   background-color: white;
+  margin: 0;
+}
+
+@media screen and (max-width: 750px) {
+  html, body {
+    width: 100%;
+  }
+  main{
+    width: 96vw;
+    padding-right: 2vw !important;
+    padding-left: 2vw !important;
+  }
 }
 
 /* Sticky footer */
