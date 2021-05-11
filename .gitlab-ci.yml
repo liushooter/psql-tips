@@ -1,4 +1,3 @@
-image: alpine:latest
 pages:
   stage: deploy
   script:
@@ -9,5 +8,5 @@ pages:
 artifacts:
   paths:
     - public
-  only:
-    - master
+only:
+  - master
