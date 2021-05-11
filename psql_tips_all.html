@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Apple macOS version 5.6.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1">
+  <title>psql Tips</title>
+  <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #3d85c6;
+        --border-width:  5px ;
+    }
+
+  </style>
+  <link rel="stylesheet" href=
+  "https://mydbanotebook.org/css/main.css"><!-- Titianette -->
+  <link rel="stylesheet" href="css/laetitia.css">
+  <link rel="stylesheet" href=
+  "https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css">
+  <link rel="stylesheet" href=
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  integrity=
+  "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+  crossorigin="anonymous">
+  <link rel="stylesheet" href=
+  "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  integrity=
+  "sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+  crossorigin="anonymous">
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sql.min.js"></script>
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"></script>
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/C.min.js"></script>
+  <script src=
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/XML.min.js"></script>
+  <script>
+  hljs.initHighlightingOnLoad();
+  </script>
+  <script src=
+  "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src=
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+  integrity=
+  "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+  crossorigin="anonymous"></script>
+  <script>
+  $(document).on('click', function() { $('.collapse').collapse('hide');
+  })
+  </script>
+  <meta name="generator" content="Hugo 0.56.3">
+  <link href="https://mydbanotebook.org/slides/index.xml" rel=
+  "alternate" type="application/rss+xml" title="My DBA Notebook">
+  <link href="https://mydbanotebook.org/slides/index.xml" rel=
+  "feed" type="application/rss+xml" title="My DBA Notebook">
+  <script type="text/javascript" async src=
+  "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <style type="text/css">
+  .MathJax_Hover_Frame {border-radius: .25em;
+  -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius:
+  .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A;
+  -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A;
+  border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+  .MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer;
+  display: inline-block; border: 2px solid #AAA; border-radius: 4px;
+  -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px;
+  font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+  .MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block;
+  background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0;
+  padding: 4px}
+  .MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid
+  #CCC!important}
+  .MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+  </style>
+  <style type="text/css">
+  #MathJax_About {position: fixed; left: 50%;
+  width: auto; text-align: center; border: 3px outset; padding: 1em 2em;
+  background-color: #DDDDDD; color: black; cursor: default; font-family:
+  message-box; font-size: 120%; font-style: normal; text-indent: 0;
+  text-transform: none; line-height: normal; letter-spacing: normal; word-spacing:
+  normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201;
+  border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px;
+  -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080;
+  -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px
+  #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter:
+  progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray',
+  Positive='true')}
+  #MathJax_About.MathJax_MousePost {outline: none}
+  .MathJax_Menu {position: absolute; background-color: white; color: black; width:
+  auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default;
+  font: menu; text-align: left; text-indent: 0; text-transform: none; line-height:
+  normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal;
+  white-space: nowrap; float: none; z-index: 201; border-radius: 5px;
+  -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px;
+  box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080;
+  -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px
+  #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2,
+  Color='gray', Positive='true')}
+  .MathJax_MenuItem {padding: 1px 2em; background: transparent}
+  .MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color:
+  #666666; font-size: .75em}
+  .MathJax_MenuActive .MathJax_MenuArrow {color: white}
+  .MathJax_MenuArrow.RTL {left: .5em; right: auto}
+  .MathJax_MenuCheck {position: absolute; left: .7em}
+  .MathJax_MenuCheck.RTL {right: .7em; left: auto}
+  .MathJax_MenuRadioCheck {position: absolute; left: .7em}
+  .MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+  .MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+  .MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+  .MathJax_MenuDisabled {color: GrayText}
+  .MathJax_MenuActive {background-color: #606872; color: white}
+  .MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color:
+  #E8E8E8}
+  .MathJax_ContextMenu:focus {outline: none}
+  .MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+  #MathJax_AboutClose {top: .2em; right: .2em}
+  .MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+  .MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block;
+  border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px;
+  -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier
+  New',Courier; font-size: 24px; color: #F0F0F0}
+  .MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px
+  solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius:
+  18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+  .MathJax_MenuClose:hover {color: white!important; border: 2px solid
+  #CCC!important}
+  .MathJax_MenuClose:hover span {background-color: #CCC!important}
+  .MathJax_MenuClose:hover:focus {outline: none}
+  </style>
+  <style type="text/css">
+  .MathJax_Preview .MJXf-math {color:
+  inherit!important}
+  </style>
+  <style type="text/css">
+  .MJX_Assistive_MathML {position:
+  absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding:
+  1px 0 0 0!important; border: 0!important; height: 1px!important; width:
+  1px!important; overflow: hidden!important; display: block!important;
+  -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select:
+  none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+  .MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+  </style>
+  <style type="text/css">
+  #MathJax_Zoom {position: absolute;
+  background-color: #F0F0F0; overflow: auto; display: block; z-index: 301;
+  padding: .5em; border: 1px solid black; margin: 0; font-weight: normal;
+  font-style: normal; text-align: left; text-indent: 0; text-transform: none;
+  line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap:
+  normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px
+  #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px
+  #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter:
+  progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray',
+  Positive='true')}
+  #MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300;
+  display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin:
+  0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+  #MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width:
+  0}
+  #MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302;
+  display: inline-block; border: 0; padding: 0; margin: 0; background-color:
+  white; opacity: 0; filter: alpha(opacity=0)}
+  </style>
+  <style type="text/css">
+  .MathJax_Preview {color: #888}
+  #MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color:
+  #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102;
+  color: black; font-size: 80%; width: auto; white-space: nowrap}
+  #MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index:
+  101; border: 0px; margin: 0px; padding: 0px}
+  .MathJax_Error {color: #CC0000; font-style: italic}
+  </style>
+  <style type="text/css">
+  .MJXp-script {font-size: .8em}
+  .MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right;
+  -ms-transform-origin: right; -o-transform-origin: right; transform-origin:
+  right}
+  .MJXp-bold {font-weight: bold}
+  .MJXp-italic {font-style: italic}
+  .MJXp-scr {font-family: MathJax_Script,'Times New
+  Roman',Times,STIXGeneral,serif}
+  .MJXp-frak {font-family: MathJax_Fraktur,'Times New
+  Roman',Times,STIXGeneral,serif}
+  .MJXp-sf {font-family: MathJax_SansSerif,'Times New
+  Roman',Times,STIXGeneral,serif}
+  .MJXp-cal {font-family: MathJax_Caligraphic,'Times New
+  Roman',Times,STIXGeneral,serif}
+  .MJXp-mono {font-family: MathJax_Typewriter,'Times New
+  Roman',Times,STIXGeneral,serif}
+  .MJXp-largeop {font-size: 150%}
+  .MJXp-largeop.MJXp-int {vertical-align: -.2em}
+  .MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0;
+  font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap;
+  border-collapse: collapse}
+  .MJXp-display {display: block; text-align: center; margin: 1em 0}
+  .MJXp-math span {display: inline-block}
+  .MJXp-box {display: block!important; text-align: center}
+  .MJXp-box:after {content: " "}
+  .MJXp-rule {display: block!important; margin-top: .1em}
+  .MJXp-char {display: block!important}
+  .MJXp-mo {margin: 0 .15em}
+  .MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+  .MJXp-denom {display: inline-table!important; width: 100%}
+  .MJXp-denom > * {display: table-row!important}
+  .MJXp-surd {vertical-align: top}
+  .MJXp-surd > * {display: block!important}
+  .MJXp-script-box > *  {display: table!important; height: 50%}
+  .MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+  .MJXp-script-box > *:last-child > * {vertical-align: bottom}
+  .MJXp-script-box > * > * > * {display: block!important}
+  .MJXp-mphantom {visibility: hidden}
+  .MJXp-munderover {display: inline-table!important}
+  .MJXp-over {display: inline-block!important; text-align: center}
+  .MJXp-over > * {display: block!important}
+  .MJXp-munderover > * {display: table-row!important}
+  .MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+  .MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+  .MJXp-mtr {display: table-row!important}
+  .MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0
+  .5em}
+  .MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+  .MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+  .MJXp-mlabeledtr {display: table-row!important}
+  .MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+  .MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+  .MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid
+  #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+  .MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0);
+  -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+  .MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1);
+  -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+  .MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2);
+  -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+  .MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3);
+  -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+  .MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4);
+  -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+  .MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5);
+  -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+  .MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6);
+  -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+  .MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7);
+  -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+  .MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8);
+  -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+  .MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9);
+  -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+  .MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left;
+  color: black; padding: 1px 3px; border: 1px solid}
+  </style>
+  <script>
+    function pickATip()
+    {
+      const maxTipNumber = 110;
+      var chosenOne=Math.floor(Math.random()*(maxTipNumber) + 1); //randomly pick one
+      document.location = "psql_tips_" + chosenOne.toString().padStart(3,0) + ".html";
+    }
+  </script>
+</head>
+<body>
+  <div id="MathJax_Message" style="display: none;"></div>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand visible-xs" href="#">Conf talks</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/post/">Posts</a>
+          </li>
+          <li>
+            <a href="conf_talks.html">Conf Talks</a>
+          </li>
+          <li>
+            <a href="psql_tips.html">Psql Tips</a>
+          </li>
+          <li>
+            <a href="/sketchnotes/">Sketchnotes</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="navbar-icon">
+            <a href="/about/me"></a>
+          </li>
+          <li class="navbar-icon">
+            <a href="mailto:arkhena@gmail.com"></a>
+          </li>
+          <li class="navbar-icon">
+            <a href="https://twitter.com/l_avrot/"></a>
+          </li>
+          <li class="navbar-icon">
+            <a href=
+            "https://www.linkedin.com/in/l%C3%A6titia-avrot/"></a>
+          </li>
+          <li class="navbar-icon">
+            <a href=
+            "https://dba.stackexchange.com/users/122828/arkhena"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+   <div id='tip001'>
+    <a href='#tip001'><h2 class='breath'>Psql Tip #001</h2></a>
+    <div class="tip" name="1">
+      If you want to simply send a single line command to psql and
+      exit, try using the <code>-c</code> or
+      <code>--command=command</code> flag.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select * from test;'
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip002'>
+    <a href='#tip002'><h2 class='breath'>Psql Tip #002</h2></a>
+    <div class="tip" name="2">
+      You can combine several <code>-c</code> or
+      <code>--command=command</code> flags to execute several
+      commands or queries.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select count(*) from test;' -c 'select
+* from test;'
+ count 
+-------
+     1
+(1 row)
+
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip003'>
+    <a href='#tip003'><h2 class='breath'>Psql Tip #003</h2></a>
+    <div class="tip" name="3">
+      With the <code>--csv</code> flag, psql will display the
+      result as a csv file.
+      <pre><code class=
+      "hljs bash">psql --csv -c 'select * from test;'
+id,value
+1,test</code></pre>This feature is available since Postgres 12.
+    </div>
+   </div>
+   <div id='tip004'>
+    <a href='#tip004'><h2 class='breath'>Psql Tip #004</h2></a>
+    <div class="tip" name="4">
+      The <code>-E</code> or <code>--echo-hidden</code> will
+      display the actual query generated by backslash commands. It
+      is a great way to learn Postgres and psql internals.
+      <pre><code class="hljs bash">laetitia:~$ psql -E -c '\l'
+********* QUERY **********
+SELECT d.datname as "Name",
+       pg_catalog.pg_get_userbyid(d.datdba) as "Owner",
+       pg_catalog.pg_encoding_to_char(d.encoding) as "Encoding",
+       d.datcollate as "Collate",
+       d.datctype as "Ctype",
+       pg_catalog.array_to_string(d.datacl, E'\n') AS "Access privileges"
+FROM pg_catalog.pg_database d
+ORDER BY 1;
+**************************
+
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------&#43;----------&#43;----------&#43;-------------&#43;-------------&#43;-----------------------
+ laetitia  | laetitia | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ test      | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+(5 rows)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip005'>
+    <a href='#tip005'><h2 class='breath'>Psql Tip #005</h2></a>
+    <div class="tip" name="5">
+      Use <code>-f filename</code> or <code>--file=filename</code>
+      to play queries from a file.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select * from test;
+laetitia:~$ psql -f query.sql
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip006'>
+    <a href='#tip006'><h2 class='breath'>Psql Tip #006</h2></a>
+    <div class="tip" name="6">
+      You can combine the <code>-c</code> or <code>--command</code>
+      flag with the <code>-f</code> or <code>--file</code> flag.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select * from test;
+laetitia:~$ psql -f query.sql -c 'select count(*) from test;'
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+ count 
+-------
+     1
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip007'>
+    <a href='#tip007'><h2 class='breath'>Psql Tip #007</h2></a>
+    <div class="tip" name="7">
+      If you use the value <code>-</code> (hyphen) in the flag
+      <code>-f</code> or <code>--filename</code>, psql will read
+      commands and queries from the standard input. The read will
+      end when reaching EOF command (CTRL&#43;D) or the <code>\q</code>
+      command.
+      <pre><code class="hljs bash">laetitia:~$ psql -f -
+laetitia=# select * from test; \q
+ id | value 
+----&#43;-------
+  1 | test
+(1 row) </code></pre>This feature is available since Postgres 7.2.
+    </div>
+   </div>
+   <div id='tip008'>
+    <a href='#tip008'><h2 class='breath'>Psql Tip #008</h2></a>
+    <div class="tip" name="8">
+      Using the <code>-f</code> or <code>--filename</code> flag
+      will allow to get usefull information as error messages with
+      line numbers.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select count(*) from test;
+
+test;
+
+select * from test;
+laetitia:~$ psql -f query.sql
+ count 
+-------
+     1
+(1 row)
+
+psql:query.sql:3: ERROR:  syntax error at or near "test"
+LINE 1: test;
+        ^
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since Postgres 7.2.
+    </div>
+   </div>
+   <div id='tip009'>
+    <a href='#tip009'><h2 class='breath'>Psql Tip #009</h2></a>
+    <div class="tip" name="9">
+      You can give queries to psql from the standard input using
+      <code>&lt; filename</code>.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select * from test;
+laetitia:~$ psql &lt; query.sql
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip010'>
+    <a href='#tip010'><h2 class='breath'>Psql Tip #010</h2></a>
+    <div class="tip" name="10">
+      You can use the result of another command as an input for
+      psql using the <code>|</code> character.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select * from test;
+laetitia:~$ cat query.sql | psql
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip011'>
+    <a href='#tip011'><h2 class='breath'>Psql Tip #011</h2></a>
+    <div class="tip" name="11">
+      <code>-d dbname</code> or <code>--dbname=dbname</code> will
+      allow you to specify the name of the database psql needs to
+      connect to.
+      <pre><code class="hljs bash">laetitia:~$ psql -d laetitia
+psql (14devel)
+Type "help" for help.
+
+laetitia=# </code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip012'>
+    <a href='#tip012'><h2 class='breath'>Psql Tip #012</h2></a>
+    <div class="tip" name="12">
+      The remaining word after option processing will be taken as a
+      database name.
+      <pre><code class="hljs bash">laetitia:~$ psql test
+psql (14devel)
+Type "help" for help.
+
+test=# </code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip013'>
+    <a href='#tip013'><h2 class='breath'>Psql Tip #013</h2></a>
+    <div class="tip" name="13">
+      The <code>-d sometext</code> or
+      <code>--dbname=sometext</code> can accept a connection URI
+      instead of a dbname.<br>
+      See <a href=
+      "https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING">
+      Postgres documentation</a> for connection URIs.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -d postgresql://localhost
+psql (14devel)
+Type "help" for help.
+
+laetitia=# </code></pre>This feature is available since Postgres
+9.4.
+    </div>
+   </div>
+   <div id='tip014'>
+    <a href='#tip014'><h2 class='breath'>Psql Tip #014</h2></a>
+    <div class="tip" name="14">
+      The <code>-d sometext</code> or
+      <code>--dbname=sometext</code> can accept a Keyword/Value
+      connection string instead of a dbname.<br>
+      See <a href=
+      "https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING">
+      Postgres documentation</a> for Keyword/Value connection
+      strings.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -d "host=localhost port=5432"
+psql (14devel)
+Type "help" for help.
+
+laetitia=# </code></pre>This feature is available since Postgres
+8.3.
+    </div>
+   </div>
+   <div id='tip015'>
+    <a href='#tip015'><h2 class='breath'>Psql Tip #015</h2></a>
+    <div class="tip" name="15">
+      The database psql will try to connect to is in order:
+      <ul>
+        <li>the database name provided with the <code>-d</code> or
+        <code>--dbname</code> flag</li>
+        <li>the first parameter not linked to a flag if the
+        <code>-d</code> or <code>--dbname</code> is not set</li>
+        <li>the value of the $PGDATABASE environment variable, if
+        set</li>
+        <li>the same as the name of the user who's trying to
+        connect</li>
+      </ul>
+      <pre><code class="hljs bash">laetitia:~$ psql -d test
+psql (14devel)
+Type "help" for help.
+
+test=# \q
+laetitia:~$ psql test
+psql (14devel)
+Type "help" for help.
+
+test=# \q
+laetitia:~$ export PGDATABASE=test
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+test=# \q
+laetitia:~$ unset PGDATABASE
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=#</code></pre>This feature is available since iat least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip016'>
+    <a href='#tip016'><h2 class='breath'>Psql Tip #016</h2></a>
+    <div class="tip" name="16">
+      Using the <code>-e</code> or <code>--echo-queries</code> will
+      display the query just before the query result in the
+      standard output.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -e -c 'select * from test;'
+select * from test;
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip017'>
+    <a href='#tip017'><h2 class='breath'>Psql Tip #017</h2></a>
+    <div class="tip" name="17">
+      Using twice a <code>-c</code> or <code>--command</code> flag
+      will display the result of both commands whereas feeding a
+      string with two queries to a <code>-c</code> or
+      <code>--command</code> flag will only display the result of
+      the last one.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select count(*) from test; select * from test;'
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia:~$ psql -c 'select count(*) from test;' -c ' select * from test;'
+ count 
+-------
+     1
+(1 row)
+
+ id | value 
+----&#43;-------
+  1 | test
+(1 row) </code></pre>This feature is available since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip018'>
+    <a href='#tip018'><h2 class='breath'>Psql Tip #018</h2></a>
+    <div class="tip" name="18">
+      The <code>-h hostname</code> or <code>--hostname
+      hostname</code> flag will allow you do provide a host psql
+      will connect to.
+      <pre><code class="hljs bash">laetitia:~$ psql -h localhost
+psql (14devel)
+Type "help" for help.
+
+laetitia=#</code></pre>This feature is available since at
+least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip019'>
+    <a href='#tip019'><h2 class='breath'>Psql Tip #019</h2></a>
+    <div class="tip" name="19">
+      You can use the <code>-h hostname</code> or <code>--hostname
+      hostname</code> flag to provide the directory the server is
+      writing the into, instead of providing a hostname.
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo grep unix_socket_directories /usr/local/pgsql/data/postgresql.conf
+unix_socket_directories = '/tmp'       # comma-separated list of directories
+laetitia:~$ psql -h /tmp
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \q</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip020'>
+    <a href='#tip020'><h2 class='breath'>Psql Tip #020</h2></a>
+    <div class="tip" name="20">
+      The host psql will try to connect to is in order:
+      <ul>
+        <li>The hostname/socket directory provided by the
+        <code>-c</code> or <code>--command</code></li>
+        <li>The $PGHOST environment variable, if set</li>
+        <li>The Unix-domain socket used by the local Postgres
+        server (if supported)</li>
+        <li><code>localhost</code> if Unix-domain socket are not
+        supported</li>
+      </ul>
+      <pre><code class="hljs bash">laetitia:~$ psql -h localhost
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" on host "localhost" (address "::1") at port "5432".
+laetitia=# \q
+laetitia:~$ psql -h /tmp
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \q
+laetitia:~$ export PGHOST=localhost
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" on host "localhost" (address "::1") at port "5432".
+laetitia=# \q
+laetitia:~$ unset PGHOST
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \q</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip021'>
+    <a href='#tip021'><h2 class='breath'>Psql Tip #021</h2></a>
+    <div class="tip" name="21">
+      Use the <code>-H</code> or <code>--html</code> flag to get
+      the query result in HTML format.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -H -c 'select * from test;'
+&lt;table border="1"&gt;
+  &lt;tr&gt;
+    &lt;th align="center"&gt;id&lt;/th&gt;
+    &lt;th align="center"&gt;value&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr valign="top"&gt;
+    &lt;td align="right"&gt;1&lt;/td&gt;
+    &lt;td align="left"&gt;test&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;(1 row)&lt;br /&gt;
+&lt;/p&gt;</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip022'>
+    <a href='#tip022'><h2 class='breath'>Psql Tip #022</h2></a>
+    <div class="tip" name="22">
+      The <code>-l</code> or <code>--list</code> flag will list the
+      databases available on the server.
+      <pre><code class="hljs bash">laetitia:~$ psql -l
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------&#43;----------&#43;----------&#43;-------------&#43;-------------&#43;-----------------------
+ laetitia  | laetitia | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ test      | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+(5 rows)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip023'>
+    <a href='#tip023'><h2 class='breath'>Psql Tip #023</h2></a>
+    <div class="tip" name="23">
+      Unless a databasename is given, using the <code>-l</code> or
+      <code>--list</code> flag will make psql attempt to connect to
+      the <code>postgres</code> database.
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo cat /usr/local/pgsql/data/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+local   postgres       laetitia                                 reject
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+laetitia:~$ psql -l
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  pg_hba.conf rejects connection for host "[local]", user "laetitia", database "postgres", no encryption
+laetitia:~$ psql -l laetitia
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------&#43;----------&#43;----------&#43;-------------&#43;-------------&#43;-----------------------
+ laetitia  | laetitia | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ test      | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+(5 rows)</code></pre>This feature is available since Postgres 10.
+    </div>
+   </div>
+   <div id='tip024'>
+    <a href='#tip024'><h2 class='breath'>Psql Tip #024</h2></a>
+    <div class="tip" name="24">
+      If you use the <code>-l</code> or <code>--list</code> flag,
+      all the other options provided (except the database name
+      option) won't be taken into account.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -l -c 'select * from test;' laetitia
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------&#43;----------&#43;----------&#43;-------------&#43;-------------&#43;-----------------------
+ laetitia  | laetitia | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          &#43;
+           |          |          |             |             | postgres=CTc/postgres
+ test      | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+(5 rows)</code></pre>This feature is available since Postgres 10.
+    </div>
+   </div>
+   <div id='tip025'>
+    <a href='#tip025'><h2 class='breath'>Psql Tip #025</h2></a>
+    <div class="tip" name="25">
+      The flag <code>-a</code> or <code>--echo-all</code> will
+      print all the non empty lines to the standard output.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql 
+select count(*) from test;
+
+
+
+
+
+
+select * from test;
+laetitia:~$ psql -f query.sql -a
+select count(*) from test;
+ count 
+-------
+     1
+(1 row)
+
+select * from test;
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip026'>
+    <a href='#tip026'><h2 class='breath'>Psql Tip #026</h2></a>
+    <div class="tip" name="26">
+      The <code>-L filename</code> or
+      <code>--log-file=filename</code> flag will write all query
+      output into file filename in addition to the normal output
+      destination.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select * from test;' -L output.log
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia:~$ cat output.log 
+********* QUERY **********
+select * from test;
+**************************
+
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since Postgres 8.1.
+    </div>
+   </div>
+   <div id='tip027'>
+    <a href='#tip027'><h2 class='breath'>Psql Tip #027</h2></a>
+    <div class="tip" name="27">
+      The <code>-o filename</code> or
+      <code>--output=filename</code> flag will write all query
+      output into file filename.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select * from test;' -o output.log
+laetitia:~$ cat output.log 
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip028'>
+    <a href='#tip028'><h2 class='breath'>Psql Tip #028</h2></a>
+    <div class="tip" name="28">
+      The <code>-p port</code> or <code>--port=port</code> will
+      allow you to use a specific port number to connect.
+      <pre><code class="hljs bash">laetitia:~$ psql -p 5432
+psql (14devel)
+Type "help" for help.
+
+laetitia=#</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip029'>
+    <a href='#tip029'><h2 class='breath'>Psql Tip #029</h2></a>
+    <div class="tip" name="29">
+      The port psql will try to connect to is in order:
+      <ul>
+        <li>the port provided with the <code>-p</code> or
+        <code>--port</code> flag</li>
+        <li>the value of the $PGPORT environment variable, if
+        set</li>
+        <li>The port specified at compile time (usually 5432)</li>
+      </ul>
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo grep "port =" /usr/local/pgsql/data/postgresql.conf
+port = 5433                             # (change requires restart)
+laetitia:~$ psql -p 5433
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \q
+laetitia:~$ export PGPORT=5433
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \q
+laetitia:~$ unset PGPORT
+laetitia:~$ psql
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such file or directory
+        Is the server running locally and accepting connections on that socket?</code></pre>This
+feature is available since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip030'>
+    <a href='#tip030'><h2 class='breath'>Psql Tip #030</h2></a>
+    <div class="tip" name="30">
+      psql will be more quiet with the <code>-q</code> or
+      <code>--quiet</code> flag on.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \q
+laetitia:~$ psql -q
+laetitia=# \q</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip031'>
+    <a href='#tip031'><h2 class='breath'>Psql Tip #031</h2></a>
+    <div class="tip" name="31">
+      If you want to debug a script, the <code>-s</code> or
+      <code>--single-step</code> flag will make psql stop after
+      each command.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql 
+select count(*) from test;
+select * from test;
+laetitia:~$ psql -s -f query.sql
+***(Single step mode: verify command)*******************************************
+select count(*) from test;
+***(press return to proceed or enter x and return to cancel)********************
+
+ count 
+-------
+     1
+(1 row)
+
+***(Single step mode: verify command)*******************************************
+select * from test;
+***(press return to proceed or enter x and return to cancel)********************
+
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip032'>
+    <a href='#tip032'><h2 class='breath'>Psql Tip #032</h2></a>
+    <div class="tip" name="32">
+      The <code>-t</code> or <code>--tuples-only</code> flag will
+      turn off printing column names and result row count footers.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select * from test;'
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia:~$ psql -c 'select * from test;' -t
+  1 | test</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip033'>
+    <a href='#tip033'><h2 class='breath'>Psql Tip #033</h2></a>
+    <div class="tip" name="33">
+      If you want to display the result of your query in HTML,
+      using the <code>-T table_options</code> or <code>--table-attr
+      table_options</code> will allow you to specify options in the
+      HTML table tag.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -c 'select * from test;' -H -T class=\"myAwesomeTableClass\"
+&lt;table border="1" class="myAwesomeTableClass"&gt;
+  &lt;tr&gt;
+    &lt;th align="center"&gt;id&lt;/th&gt;
+    &lt;th align="center"&gt;value&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr valign="top"&gt;
+    &lt;td align="right"&gt;1&lt;/td&gt;
+    &lt;td align="left"&gt;test&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;(1 row)&lt;br /&gt;
+&lt;/p&gt;</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip034'>
+    <a href='#tip034'><h2 class='breath'>Psql Tip #034</h2></a>
+    <div class="tip" name="34">
+      The <code>-U username</code> or
+      <code>--username=username</code> flag will allow you to feed
+      the database user to connect to to psql.
+      <pre><code class="hljs bash">laetitia:~$ psql -U postgres
+psql (14devel)
+Type "help" for help.
+
+postgres=#</code></pre>
+    </div>
+   </div>
+   <div id='tip035'>
+    <a href='#tip035'><h2 class='breath'>Psql Tip #035</h2></a>
+    <div class="tip" name="35">
+      The user psql will try to connect with is in order:
+      <ul>
+        <li>the user provided with the <code>-U username</code> or
+        <code>--username=username</code></li>
+        <li>the value of the $PGUSER environment variable, if
+        set</li>
+        <li>the name of the OS user</li>
+      </ul>
+      <pre><code class="hljs bash">laetitia:~$ psql -U postgres
+psql (14devel)
+Type "help" for help.
+
+postgres=# \conninfo
+You are connected to database "postgres" as user "postgres" via socket in "/tmp" at port "5432".
+postgres=# \q
+laetitia:~$ export PGUSER=postgres
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+postgres=# \conninfo
+You are connected to database "postgres" as user "postgres" via socket in "/tmp" at port "5432".
+postgres=# \q
+laetitia:~$ unset PGUSER
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".</code></pre>This
+feature is available since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip036'>
+    <a href='#tip036'><h2 class='breath'>Psql Tip #036</h2></a>
+    <div class="tip" name="36">
+      Long options can take a value with or without the equal sign.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql --dbname laetitia
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \q
+laetitia:~$ psql --dbname=laetitia
+psql (14devel)
+Type "help" for help.
+
+laetitia=#</code></pre>This feature is available since Postgres
+9.1.
+    </div>
+   </div>
+   <div id='tip037'>
+    <a href='#tip037'><h2 class='breath'>Psql Tip #037</h2></a>
+    <div class="tip" name="37">
+      You can use variables in psql in non-interactive mode. the
+      flag <code>-v assignement</code> or
+      <code>--set=assignement</code> or
+      <code>--variable=assignement</code>.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql 
+select * from :tablename;
+laetitia:~$ psql -v tablename=test -f query.sql 
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia:~$ cat query2.sql 
+select * from test where value = :'var';
+ilaetitia:~$ psql --set var=test -f query2.sql 
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip038'>
+    <a href='#tip038'><h2 class='breath'>Psql Tip #038</h2></a>
+    <div class="tip" name="38">
+      To unset a variable or to set a variable to an empty value in
+      non interractive mode, use the <code>-v assignement</code> or
+      <code>--set=assignement</code> or
+      <code>--variable=assignement</code> flag and leave off the
+      equal sign.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -v var=value -c '\echo :var'
+value
+laetitia:~$ psql -v var= -c '\echo :var' </code></pre>This feature is available since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip039'>
+    <a href='#tip039'><h2 class='breath'>Psql Tip #039</h2></a>
+    <div class="tip" name="39">
+      psql will print the psql version and exit should you use the
+      <code>-V</code> or <code>--version</code> flag.
+      <pre><code class="hljs bash">laetitia:~$ psql -V
+psql (PostgreSQL) 14devel</code></pre>This feature is available
+since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip040'>
+    <a href='#tip040'><h2 class='breath'>Psql Tip #040</h2></a>
+    <div class="tip" name="40">
+      If you don't want psql to issue a password prompt, use the
+      <code>-w</code> or <code>--no-password</code> flag. Should a
+      password be needed, the connection attemp will fail. This is
+      useful in batch jobs and scripts where no user is present to
+      enter a password.
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo cat /usr/local/pgsql/data/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+local   postgres       laetitia                                 scram-sha-256
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+laetitia:~$ psql postgres -w
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: fe_sendauth: no password supplied</code></pre>This
+feature is available since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip041'>
+    <a href='#tip041'><h2 class='breath'>Psql Tip #041</h2></a>
+    <div class="tip" name="41">
+      The <code>-W</code> or <code>--password</code> will force
+      psql to prompt for a password before connecting to a
+      database, even if the password will not be used.<br>
+      <br>
+      If the server requires a password, psql will waste a
+      connection attempt finding out that the server wants a
+      password. In some cases it is worth typing <code>-W</code> to
+      avoid the extra connection attempt.
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo cat /usr/local/pgsql/data/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+laetitia:~$ psql -W
+Password: 
+psql (14devel)
+Type "help" for help.
+
+laetitia=#</code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip042'>
+    <a href='#tip042'><h2 class='breath'>Psql Tip #042</h2></a>
+    <div class="tip" name="42">
+      The <code>-W</code> or <code>--password</code> is set for the
+      entire session. Should you try a connection in psql using the
+      <code>\c</code> command will still ask for a password even if
+      it's useless.
+      <pre><code class=
+      "hljs bash">laetitia:~$ sudo cat /usr/local/pgsql/data/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+laetitia:~$ psql -W
+Password: 
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \c postgres
+Password: 
+You are now connected to database "postgres" as user "laetitia".
+postgres=# </code></pre>This feature is available since at least
+Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip043'>
+    <a href='#tip043'><h2 class='breath'>Psql Tip #043</h2></a>
+    <div class="tip" name="43">
+      The <code>-x</code> or <code>--expand</code> will expand the
+      output for better readability.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql -x -c 'select * from animal;'
+-[ RECORD 1 ]------&#43;------------------------------------------
+specie_code        | cat or dog or other kind of 4 paws animal
+name               | Ada
+sex                | Female
+birth_date         | 2018-04-25
+death_date         | 
+mother_specie_code | cat or dog or other kind of 4 paws animal
+mother_name        | Grace</code></pre>This feature is available
+since at least Postgres 7.1.
+    </div>
+   </div>
+   <div id='tip044'>
+    <a href='#tip044'><h2 class='breath'>Psql Tip #044</h2></a>
+    <div class="tip" name="44">
+      The <code>-1</code> or <code>--single-transaction</code> flag
+      will encapsulate all your commands (provided with
+      <code>-c</code> or <code>--command</code> or with
+      <code>-f</code> or <code>--file</code>) into a single
+      transaction with <code>begin</code> and <code>commit</code>
+      or <code>rollback</code>.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+select * from test;
+insert into test values ('myvalue');
+select * from test;
+laetitia:~$ psql -1 -f query.sql -E
+********* QUERY **********
+BEGIN
+**************************
+
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+psql:query.sql:2: ERROR:  invalid input syntax for type integer: "myvalue"
+LINE 1: insert into test values ('myvalue');
+                                 ^
+psql:query.sql:3: ERROR:  current transaction is aborted, commands ignored until end of transaction block
+********* QUERY **********
+COMMIT
+**************************</code></pre>This feature is available
+since Postgres 8.2.
+	</div>
+   </div>
+   <div id='tip045'>
+    <a href='#tip045'><h2 class='breath'>Psql Tip #045</h2></a>
+    <div class="tip">
+	  <code>psql</code> returns 0 to the shell if it finished normally, 1 if a fatal error of
+	  its own occurs, 2 if the connection
+	  to the server went bad and the session was not interactive, and 3 if an
+	  error occurred in a script and the variable <code>ON_ERROR_STOP</code> was set.
+      <pre><code class="hljs bash">laetitia:~$ psql -c 'select * from test;'
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia:~$ echo $?
+0
+laetitia:~$ psql -f notExistingFile.sql
+psql: error: notExistingFile.sql: No such file or directory
+laetitia:~$ echo $?
+1
+laetitia:~$ psql -U notExistingUser
+psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  role "notExistingUser" does not exist
+laetitia:~$ echo $?
+2
+laetitia:~$ cat query.sql
+\set ON_ERROR_STOP
+select * from test;
+test;
+select * from test;
+laetitia:~$ psql -f query.sql
+ id | value
+----&#43;-------
+  1 | test
+(1 row)
+
+psql:query.sql:3: ERROR:  syntax error at or near "test"
+LINE 1: test;
+        ^
+laetitia:~$ echo $?
+3</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip046'>
+    <a href='#tip046'><h2 class='breath'>Psql Tip #046</h2></a>
+    <div class="tip">
+	The three variables PROMPT1, PROMPT2, and PROMPT3 contain strings and
+	special escape sequences that describe the appearance of the prompt. Prompt
+	1 is the normal prompt that is issued when psql requests a new command.
+	  Prompt 2 is issued when more input is expected during command entry, for
+	  example because the command was not terminated with a semicolon or a quote
+	  was not closed. Prompt 3 is issued when you are running an SQL COPY FROM
+	  STDIN command and you need to type in a row value on the terminal.
+      <pre><code class="hljs bash">laetitia=# \set PROMPT1 'What can I do for you? '
+What can I do for you? \set PROMPT2 'I\'m waiting... '
+What can I do for you? select *
+I'm waiting... from test;
+ id | value 
+----+-------
+  1 | test
+(1 row)
+
+What can I do for you? \set PROMPT3 'Please enter your value: ' 
+What can I do for you? copy test (value) from stdin;
+Enter data to be copied followed by a newline.
+End with a backslash and a period on a line by itself, or an EOF signal.
+Please enter your value: blabla
+Please enter your value: \.
+COPY 1</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip047'>
+    <a href='#tip047'><h2 class='breath'>Psql Tip #047</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt will nicely and discreetly (as a real gentleman) remind
+	  you a quote, a double quote or a parentethis is open but not closed.
+      <pre><code class="hljs bash">laetitia=# select '
+laetitia'# 
+laetitia=# select (
+laetitia(# 
+laetitia=# select "
+laetitia"#</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip048'>
+    <a href='#tip048'><h2 class='breath'>Psql Tip #048</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can remind you that you are or not inside a transaction.
+	  It is the default behaviour for Postgres 14. For lower versions of
+	  Postgres, you can have the exact same feature by setting the <code>PROMPT1</code>
+	  variable with this command: <code>\set PROMPT1 '%~%x%# '</code>. This command can be
+	  added to a .psqlrc in your home directory to be played automatically when
+	  <code>psql</code> starts.
+      <pre><code class="hljs bash">laetitia=# begin;
+BEGIN
+laetitia=*#
+laetitia=*# rollback;
+ROLLBACK
+laetitia=#</code></pre>This feature is available
+since Postgres 7.4.
+	</div>
+   </div>
+   <div id='tip049'>
+    <a href='#tip049'><h2 class='breath'>Psql Tip #049</h2></a>
+    <div class="tip">
+	  By default, the <code>psql</code> prompt will display <code>#</code> if you're connected with
+	  a super admin user or <code>></code> for a normal user.
+      <pre><code class="hljs bash">laetitia=# \du 
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------&#43;------------------------------------------------------------&#43;-----------
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {}
+
+test=# \c laetitia test
+You are now connected to database "laetitia" as user "test".
+laetitia=> \c laetitia laetitia
+You are now connected to database "laetitia" as user "laetitia".
+laetitia=#</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip050'>
+    <a href='#tip050'><h2 class='breath'>Psql Tip #050</h2></a>
+    <div class="tip">
+      You can customize the <code>psql</code> prompt with the full host name of the
+	  database server by
+	  using the <code>%M</code> value.
+      <pre><code class="hljs bash">laetitia:~$ psql -h myHost.myAwesomeDomain.com
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \set PROMPT1 '%M '
+myHost.myAwesomeDomain.com</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip051'>
+    <a href='#tip051'><h2 class='breath'>Psql Tip #051</h2></a>
+    <div class="tip">
+      You can customize the <code>psql</code> prompt with the host name of the database
+	  server by
+	  using the <code>%m</code> value.
+      <pre><code class="hljs bash">laetitia:~$ psql -h myHost.myAwesomeDomain.com
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \set PROMPT1 '%m '
+myHost </code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip052'>
+    <a href='#tip052'><h2 class='breath'>Psql Tip #052</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can display the port the database server is listening on
+	  with the <code>%></code> value.
+      <pre><code class="hljs bash">laetitia=# \set PROMPT1 '%> '
+5432 </code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip053'>
+    <a href='#tip053'><h2 class='breath'>Psql Tip #053</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can display the database session user name
+	  with the <code>%n</code> value.
+      <pre><code class="hljs bash">postgres=# \set PROMPT1 '%n '
+laetitia</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip054'>
+    <a href='#tip054'><h2 class='breath'>Psql Tip #054</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can display the database name
+	  with the <code>%~</code> value or the <code>%/</code> value. If you're connected to the default
+	  database and you used the <code>%~</code> value in the prompt, it will display <code>~</code>
+	  when you're connected to the default database.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \set PROMPT1 '%~ '
+~ \set PROMPT1 '%/ '
+laetitia </code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip055'>
+    <a href='#tip055'><h2 class='breath'>Psql Tip #055</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can display the process ID of the backend currently
+	  connected to
+	  with the <code>%p</code> value.
+      <pre><code class="hljs bash">laetitia=# \set PROMPT1 '%p #'
+94162 #\! pgrep -fal postgres
+1866 /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data
+1867 postgres: logger  ptr_munge= main_stack=
+1869 postgres: checkpointer  ptr_munge= main_stack=
+1870 postgres: background writer  ptr_munge= main_stack=
+1871 postgres: walwriter  ptr_munge= main_stack=
+1872 postgres: autovacuum launcher  ptr_munge= main_stack=
+1873 postgres: stats collector  ptr_munge= main_stack=
+1874 postgres: logical replication launcher  ptr_munge= main_stack=
+94162 postgres: laetitia laetitia [local] idle ptr_munge= main_stack=
+94162 #</code></pre>This feature is available
+since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip056'>
+    <a href='#tip056'><h2 class='breath'>Psql Tip #056</h2></a>
+    <div class="tip">
+	  The <code>psql</code> prompt can display the number of the line of your statement,
+	  should you use the value <code>%l</code> when you set the prompt.
+       <pre><code class="hljs bash">laetitia=# \set PROMPT1 '%l '
+1 \set PROMPT2 '%l '
+1 select
+2 *
+3 from
+4 test
+5 ;
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available
+since Postgres 9.5.
+	</div>
+   </div>
+   <div id='tip057'>
+    <a href='#tip057'><h2 class='breath'>Psql Tip #057</h2></a>
+    <div class="tip">
+	  The <code>[ ... %]</code> value can allow to customize the terminal exactly like your
+	  terminal prompt.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \set PROMPT1 '%[%033[36m%]%n@%/%R%]%# '
+# laetitia@laetitia=</code></pre>This code will color my terminal in cyan, as
+you can see in the following image:<br/>
+<img src="images/cyanTerminal.png" class="example"/>
+<br/>This feature is available
+since Postgres 8.0.
+	</div>
+   </div>
+   <div id='tip058'>
+    <a href='#tip058'><h2 class='breath'>Psql Tip #058</h2></a>
+    <div class="tip">
+	  When already connected to <code>psql</code> you can re-connect using the
+	  <code>\c</code> or <code>\connect</code> meta-command.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c
+You are now connected to database "laetitia" as user "laetitia".
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip059'>
+    <a href='#tip059'><h2 class='breath'>Psql Tip #059</h2></a>
+    <div class="tip">
+	  Anything you enter in psql that begins with an unquoted backslash is
+	  a psql meta-command that is processed by psql itself. Meta-commands are
+	  often called slash or backslash commands.<br/>
+	  <br/>
+	  The format of a psql command is the backslash, followed immediately by
+	  a command verb, then any arguments. The arguments are separated from the
+	  command verb and each other by any number of whitespace characters.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \test
+invalid command \test
+Try \? for help.</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip060'>
+    <a href='#tip060'><h2 class='breath'>Psql Tip #060</h2></a>
+    <div class="tip">
+	  in interactive mode, you can connect to a different database with the
+	  metacommand <code>\c dbname</code> or <code>\connect dbname</code>
+      <pre><code class="hljs bash">laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c postgres
+You are now connected to database "postgres" as user "laetitia".
+postgres=#</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip061'>
+    <a href='#tip061'><h2 class='breath'>Psql Tip #061</h2></a>
+    <div class="tip">
+	  In interactive mode, you can connect to another database, host, port or
+	  with another user by using the following metacommand <code>\c dbname username
+	  host port</code>.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c laetitia laetitia localhost 5432
+You are now connected to database "laetitia" as user "laetitia" on host "localhost" (address "::1") at port "5432".
+laetitia=#</code></pre>This feature is available
+since at Postgres 7.1 for <code>\c dbname username</code> and since Postgres 8.2 for <code>\c dbname username host port</code>.
+	</div>
+   </div>
+   <div id='tip062'>
+    <a href='#tip062'><h2 class='breath'>Psql Tip #062</h2></a>
+    <div class="tip">
+	  If a <code>\c</code> or <code>\connect</code> metacommand fails (wrong user name, access denied,
+		etc.), the previous connection will be kept if psql is in interactive
+		mode. But when executing a non-interactive script, processing will
+		immediately stop with an error.
+      <pre><code class="hljs bash">laetitia:~$ cat query.sql
+\c latiatia
+select * from test;
+laetitia:~$ psql -f query.sql 
+psql:query.sql:1: error: \connect: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  database "latiatia" does not exist
+laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \c latiatia
+connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  database "latiatia" does not exist
+Previous connection kept
+laetitia=#</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip063'>
+    <a href='#tip063'><h2 class='breath'>Psql Tip #063</h2></a>
+    <div class="tip">
+	  You can use a <code>-</code> to omit a positional parameter with the <code>\c</code> or
+	  <code>\connect</code> meta-command.
+      <pre><code class="hljs bash">laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c - - 127.0.0.1
+You are now connected to database "laetitia" as user "laetitia" on host "127.0.0.1" at port "5432".</code></pre>This feature is available
+since Postgres 9.0.
+	</div>
+   </div>
+   <div id='tip064'>
+    <a href='#tip064'><h2 class='breath'>Psql Tip #064</h2></a>
+    <div class="tip">
+      The <code>\c</code> or
+      <code>\connect</code> metacommand can accept a connection URI
+      instead of a dbname.<br>
+      See <a href=
+      "https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING">
+      Postgres documentation</a> for connection URIs.
+      <pre><code class=
+      "hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c postgresql://localhost 
+You are now connected to database "laetitia" as user "laetitia" on host "localhost" (address "::1") at port "5432".</code></pre>This feature is available since Postgres
+9.4.
+    </div>
+   </div>
+   <div id='tip065'>
+    <a href='#tip065'><h2 class='breath'>Psql Tip #065</h2></a>
+    <div class="tip">
+      The <code>\c</code> or
+      <code>\connect</code> metacommand can accept a Keyword/Value
+      connection string instead of a dbname.<br>
+      See <a href=
+      "https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING">
+      Postgres documentation</a> for Keyword/Value connection
+      strings.
+      <pre><code class=
+      "hljs bash">laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".
+laetitia=# \c "host=localhost port=5432"
+You are now connected to database "laetitia" as user "laetitia" on host "localhost" (address "::1") at port "5432".</code></pre>This feature is available since Postgres
+8.3.
+    </div>
+   </div>
+   <div id='tip066'>
+    <a href='#tip066'><h2 class='breath'>Psql Tip #066</h2></a>
+    <div class="tip">
+	  The <code>\C title</code> will allow you to set a title for your query. To unset
+	  a title, just use <code>\C</code>.
+      <pre><code class="hljs bash">laetitia=# \C 'test values'
+Title is "test values".
+laetitia=# select * from test;
+test values
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)
+
+laetitia=# \C
+Title is unset.
+laetitia=# select * from test;
+ id | value 
+----&#43;-------
+  1 | test
+(1 row)</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip067'>
+    <a href='#tip067'><h2 class='breath'>Psql Tip #067</h2></a>
+    <div class="tip">
+	  Use the <code>\conninfo</code> metacommand to display information about the current
+	  database connection.
+      <pre><code class="hljs bash">laetitia:~$ psql
+psql (14devel)
+Type "help" for help.
+
+laetitia=# \conninfo
+You are connected to database "laetitia" as user "laetitia" via socket in "/tmp" at port "5432".</code></pre>This feature is available
+since Postgres 9.5.
+	</div>
+   </div>
+   <div id='tip068'>
+    <a href='#tip068'><h2 class='breath'>Psql Tip #068</h2></a>
+    <div class="tip">
+	  You can display copyright information and distribution term of PostgreSQL
+	  by using the <code>\copyright</code> metacommand.
+      <pre><code class="hljs bash">laetitia=# \copyright
+PostgreSQL Database Management System
+(formerly known as Postgres, then as Postgres95)
+
+Portions Copyright (c) 1996-2021, PostgreSQL Global Development Group
+
+Portions Copyright (c) 1994, The Regents of the University of California
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose, without fee, and without a written agreement
+is hereby granted, provided that the above copyright notice and this
+paragraph and the following two paragraphs appear in all copies.
+
+IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
+LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
+DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS
+ON AN "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO
+PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip069'>
+    <a href='#tip069'><h2 class='breath'>Psql Tip #069</h2></a>
+    <div class="tip">
+	  <code>\d pattern</code> will  display for each relation (table, view, materialized
+		view, index, sequence, or foreign table) or composite type matching the
+		pattern, all columns, their types, the tablespace (if not the
+		  default) and any special attributes such as NOT NULL or defaults.
+		  Associated indexes, constraints, rules, and triggers are also shown.
+		  For foreign tables, the associated foreign server is shown as
+		  well.<br/>
+		  <br/>
+		  For some types of relation, <code>\d</code> shows additional information for each
+		  column: column values for sequences, indexed expressions for indexes,
+		  and foreign data wrapper options for foreign tables.
+      <pre><code class="hljs bash">laetitia=# \d test
+                          Table "public.test"
+ Column |  Type   | Collation | Nullable |           Default            
+--------&#43;---------&#43;-----------&#43;----------&#43;------------------------------
+ id     | integer |           | not null | generated always as identity
+ value  | text    |           | not null | 
+Indexes:
+    "test_value_key" UNIQUE CONSTRAINT, btree (value)</code></pre>This feature is available
+since Postgres 7.1, but was updated with Postgres 9.0, Postgres 9.3.
+	</div>
+   </div>
+   <div id='tip070'>
+    <a href='#tip070'><h2 class='breath'>Psql Tip #070</h2></a>
+    <div class="tip">
+	  The <code>\cd</code> metacommand will change the current working directory.
+      <pre><code class="hljs bash">laetitia=# \cd /tmp
+laetitia=# \! pwd
+/private/tmp </code></pre>This feature is available
+since Postgres 7.2.
+	</div>
+   </div>
+   <div id='tip071'>
+    <a href='#tip071'><h2 class='breath'>Psql Tip #071</h2></a>
+    <div class="tip">
+	  Using the <code>\d</code> metacommand without a pattern will show a list of all
+	  visible tables, views, materialized views, sequences and foreign tables.
+      <pre><code class="hljs bash">laetitia=# \d
+             List of relations
+ Schema |    Name     |   Type   |  Owner   
+--------&#43;-------------&#43;----------&#43;----------
+ public | animal      | table    | laetitia
+ public | test        | table    | laetitia
+ public | test_id_seq | sequence | laetitia
+(3 rows) </code></pre>This feature is available
+since Postgres 7.0, but has been updated in Postgres 9.0 and Postgres 9.3.
+	</div>
+   </div>
+   <div id='tip072'>
+    <a href='#tip072'><h2 class='breath'>Psql Tip #072</h2></a>
+    <div class="tip">
+	  By default, the <code>\d</code> won't show system object. You can either use
+	  the <code>\dS</code> or supply pattern to include system objects.
+      <pre><code class="hljs bash">laetitia=# \d
+             List of relations
+ Schema |    Name     |   Type   |  Owner
+--------&#43;-------------&#43;----------&#43;----------
+ public | animal      | table    | laetitia
+ public | test        | table    | laetitia
+ public | test_id_seq | sequence | laetitia
+(3 rows)
+
+laetitia=# \dS
+                         List of relations
+   Schema   |              Name               |   Type   |  Owner
+------------&#43;---------------------------------&#43;----------&#43;----------
+ pg_catalog | pg_aggregate                    | table    | postgres
+ pg_catalog | pg_am                           | table    | postgres
+ pg_catalog | pg_amop                         | table    | postgres
+ pg_catalog | pg_amproc                       | table    | postgres
+[...]
+ pg_catalog | pg_views                        | view     | postgres
+ public     | animal                          | table    | laetitia
+ public     | test                            | table    | laetitia
+ public     | test_id_seq                     | sequence | laetitia
+(136 rows)
+
+laetitia=# \d pg_aggregate
+               Table "pg_catalog.pg_aggregate"
+      Column      |   Type   | Collation | Nullable | Default
+------------------&#43;----------&#43;-----------&#43;----------&#43;---------
+ aggfnoid         | regproc  |           | not null |
+ aggkind          | "char"   |           | not null |
+ aggnumdirectargs | smallint |           | not null |
+ aggtransfn       | regproc  |           | not null |
+ aggfinalfn       | regproc  |           | not null |
+ aggcombinefn     | regproc  |           | not null |
+ aggserialfn      | regproc  |           | not null |
+ aggdeserialfn    | regproc  |           | not null |
+ aggmtransfn      | regproc  |           | not null |
+ aggminvtransfn   | regproc  |           | not null |
+ aggmfinalfn      | regproc  |           | not null |
+ aggfinalextra    | boolean  |           | not null |
+ aggmfinalextra   | boolean  |           | not null |
+ aggfinalmodify   | "char"   |           | not null |
+ aggmfinalmodify  | "char"   |           | not null |
+ aggsortop        | oid      |           | not null |
+ aggtranstype     | oid      |           | not null |
+ aggtransspace    | integer  |           | not null |
+ aggmtranstype    | oid      |           | not null |
+ aggmtransspace   | integer  |           | not null |
+ agginitval       | text     | C         |          |
+ aggminitval      | text     | C         |          |
+Indexes:
+    "pg_aggregate_fnoid_index" PRIMARY KEY, btree (aggfnoid) </code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip073'>
+    <a href='#tip073'><h2 class='breath'>Psql Tip #073</h2></a>
+    <div class="tip">
+	The <code>&#43;</code> modifier to the <code>\d pattern</code> metacommand will, on top of displaying
+	information about table, view, materialized view, index, sequence,
+	foreign table, or composite type matching the pattern,, display any comments
+	associated with the columns of the table are shown, as is the presence of
+	OIDs in the table, the view definition if the relation is a view,
+	a non-default replica identity setting.
+      <pre><code class="hljs bash">laetitia=# \d&#43; test
+                                                       Table "public.test"
+ Column |  Type   | Collation | Nullable |           Default            | Storage  | Compression | Stats target |  Description   
+--------&#43;---------&#43;-----------&#43;----------&#43;------------------------------&#43;----------&#43;-------------&#43;--------------&#43;----------------
+ id     | integer |           | not null | generated always as identity | plain    |             |              | 
+ value  | text    |           | not null |                              | extended | pglz        |              | column comment
+Indexes:
+    "test_value_key" UNIQUE CONSTRAINT, btree (value)
+Access method: heap</code></pre>This feature is available
+since Postgres 8.0.
+	</div>
+   </div>
+   <div id='tip074'>
+    <a href='#tip074'><h2 class='breath'>Psql Tip #074</h2></a>
+    <div class="tip">
+	  <code>\dn</code> will display a list of schemas. The <code>S</code> modifier will allow to list
+	  system schemas too. <code>\dn pattern</code> will list schemas matching the pattern.
+	  The <code>&#43;</code> modifier will display access priviledges and description.
+      <pre><code class="hljs bash">laetitia=# \dn
+  List of schemas
+  Name  |  Owner   
+--------&#43;----------
+ public | postgres
+(1 row)
+
+laetitia=# \dnS
+        List of schemas
+        Name        |  Owner   
+--------------------&#43;----------
+ information_schema | postgres
+ pg_catalog         | postgres
+ pg_toast           | postgres
+ public             | postgres
+(4 rows)
+
+laetitia=# \dn pub*
+  List of schemas
+  Name  |  Owner   
+--------&#43;----------
+ public | postgres
+(1 row)i
+
+laetitia=# \dn&#43; pub*
+                          List of schemas
+  Name  |  Owner   |  Access privileges   |      Description       
+--------&#43;----------&#43;----------------------&#43;------------------------
+ public | postgres | postgres=UC/postgres&#43;| standard public schema
+        |          | =UC/postgres         | 
+(1 row)</code></pre>This feature is available
+since Postgres 7.4, but was updated in Postgres 8.0 to add the <code>&#43;</code> modifier and
+in Postgres 9.0 to add the <code>S</code> modifier.
+	</div>
+   </div>
+   <div id='tip075'>
+    <a href='#tip075'><h2 class='breath'>Psql Tip #075</h2></a>
+    <div class="tip">
+	  <code>\db</code> will display a list of tablespaces. <code>\db pattern</code> will list
+	  tablesapces matching the pattern.
+	  The <code>&#43;</code> modifier will display access priviledgesi, options, size and description.
+      <pre><code class="hljs bash">laetitia=# \db
+       List of tablespaces
+    Name    |  Owner   | Location 
+------------&#43;----------&#43;----------
+ pg_default | postgres | 
+ pg_global  | postgres | 
+(2 rows)
+
+laetitia=# \db&#43;
+                                  List of tablespaces
+    Name    |  Owner   | Location | Access privileges | Options |  Size  | Description 
+------------&#43;----------&#43;----------&#43;-------------------&#43;---------&#43;--------&#43;-------------
+ pg_default | postgres |          |                   |         | 39 MB  | 
+ pg_global  | postgres |          |                   |         | 559 kB | 
+(2 rows)</code></pre>This feature is available
+since Postgres 8.0.
+	</div>
+   </div>
+   <div id='tip076'>
+    <a href='#tip076'><h2 class='breath'>Psql Tip #076</h2></a>
+    <div class="tip">
+	  <code>\dD</code> will display a list of domains. <code>\dD pattern</code> will list
+	  domain matching the pattern.
+	  The <code>&#43;</code> modifier will also display access priviledges and description.
+	  The <code>S</code> modifier will also display the system domains. There is
+	  currently no system domains provided with Postgres.
+      <pre><code class="hljs bash">laetitia=# \dD
+                                           List of domains
+ Schema |     Name      | Type | Collation | Nullable | Default |                Check                
+--------&#43;---------------&#43;------&#43;-----------&#43;----------&#43;---------&#43;-------------------------------------
+ public | one_word_only | text |           |          |         | CHECK (VALUE ~ '^[a-zA-Z]&#43;$'::text)
+(1 row)
+
+laetitia=# \dD&#43;
+                                                            List of domains
+ Schema |     Name      | Type | Collation | Nullable | Default |                Check                | Access privileges | Description 
+--------&#43;---------------&#43;------&#43;-----------&#43;----------&#43;---------&#43;-------------------------------------&#43;-------------------&#43;-------------
+ public | one_word_only | text |           |          |         | CHECK (VALUE ~ '^[a-zA-Z]&#43;$'::text) |                   | 
+(1 row)
+
+laetitia=# \dDS
+                                           List of domains
+ Schema |     Name      | Type | Collation | Nullable | Default |                Check                
+--------&#43;---------------&#43;------&#43;-----------&#43;----------&#43;---------&#43;-------------------------------------
+ public | one_word_only | text |           |          |         | CHECK (VALUE ~ '^[a-zA-Z]&#43;$'::text)
+(1 row)</code></pre>This feature is available
+since Postgres 7.3., but has been upgraded in Postgres 8.4 to add the <code>S</code>
+modifier and in Postgres 9.2 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip077'>
+    <a href='#tip077'><h2 class='breath'>Psql Tip #077</h2></a>
+    <div class="tip">
+	  <code>\ddp</code> will display a list of default access privilege
+	  settings. An entry is shown for each role (and schema, if applicable) for
+	  which the default privilege settings have been changed from the built-in
+	  defaults. If pattern is specified, only entries whose role name or schema
+	  name matches the pattern are listed.
+      <pre><code class="hljs bash">laetitia=# alter default privileges for role test revoke all on tables from test;
+ALTER DEFAULT PRIVILEGES
+laetitia=# \ddp
+         Default access privileges
+ Owner | Schema | Type  | Access privileges 
+-------&#43;--------&#43;-------&#43;-------------------
+ test  |        | table | 
+(1 row) </code></pre>This feature is available
+since Postgres 7.3., but has been upgraded in Postgres 8.4 to add the <code>S</code>
+modifier and inPostgres 9.2 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip078'>
+    <a href='#tip078'><h2 class='breath'>Psql Tip #078</h2></a>
+    <div class="tip">
+	  <code>\dE</code> will display a list of foreign table. <code>\dE pattern</code> will list
+	  foreign tables matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence, size and description.
+	  The <code>S</code> modifier will also display the system foreign tables. There is
+	  currently no system foreign table provided with Postgres.
+      <pre><code class="hljs bash">laetitia=# \dE
+            List of relations
+ Schema | Name |     Type      |  Owner   
+--------&#43;------&#43;---------------&#43;----------
+ public | logs | foreign table | laetitia
+(1 row)
+
+laetitia=# \dE&#43;
+                               List of relations
+ Schema | Name |     Type      |  Owner   | Persistence |  Size   | Description 
+--------&#43;------&#43;---------------&#43;----------&#43;-------------&#43;---------&#43;-------------
+ public | logs | foreign table | laetitia | permanent   | 0 bytes | 
+(1 row)
+
+laetitia=# \dES
+            List of relations
+ Schema | Name |     Type      |  Owner   
+--------&#43;------&#43;---------------&#43;----------
+ public | logs | foreign table | laetitia
+(1 row)</code></pre>This feature is available
+since Postgres 9.1.
+	</div>
+   </div>
+   <div id='tip079'>
+    <a href='#tip079'><h2 class='breath'>Psql Tip #079</h2></a>
+    <div class="tip">
+	  <code>\di</code> will display the list of user created visible indexes. <code>\di pattern</code> will list
+	  indexes matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence, access methode,
+	  size and description.
+	  The <code>S</code> modifier will also display the system indexes.
+      <pre><code class="hljs bash">laetitia=# \di
+                 List of relations
+ Schema |      Name      | Type  |  Owner   | Table
+--------&#43;----------------&#43;-------&#43;----------&#43;-------
+ public | test_value_key | index | laetitia | test
+(1 row)
+
+laetitia=# \di&#43;
+                                           List of relations
+ Schema |      Name      | Type  |  Owner   | Table | Persistence | Access Method | Size  | Description
+--------&#43;----------------&#43;-------&#43;----------&#43;-------&#43;-------------&#43;---------------&#43;-------&#43;-------------
+ public | test_value_key | index | laetitia | test  | permanent   | btree         | 16 kB |
+(1 row)
+
+laetitia=# \diS
+List of relations
+   Schema   |                     Name                      | Type  |  Owner   |          Table
+------------&#43;-----------------------------------------------&#43;-------&#43;----------&#43;-------------------------
+ pg_catalog | pg_aggregate_fnoid_index                      | index | postgres | pg_aggregate
+ pg_catalog | pg_am_name_index                              | index | postgres | pg_am
+ pg_catalog | pg_am_oid_index                               | index | postgres | pg_ami
+[...]
+ pg_catalog | pg_user_mapping_user_server_index             | index | postgres | pg_user_mapping
+ public     | test_value_key                                | index | laetitia | test
+(118 rows) </code></pre>This feature is available
+since at least Postgres 7.1., but has been upgraded in Postgres 7.2 to add the <code>S</code>
+modifier and inPostgres 8.4 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip080'>
+    <a href='#tip080'><h2 class='breath'>Psql Tip #080</h2></a>
+    <div class="tip">
+	  <code>\dm</code> will display the list of user created and visible
+	  materialized views. <code>\dm pattern</code> will list
+	  materialized views matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence, access methode,
+	  size and description.
+	  The <code>S</code> modifier will also display the system materialized
+	  views. There is currently no materialized views provided by Postgres.
+      <pre><code class="hljs bash">laetitia=# \dm
+              List of relations
+ Schema | Name |       Type        |  Owner   
+--------&#43;------&#43;-------------------&#43;----------
+ public | mymv | materialized view | laetitia
+(1 row)
+
+laetitia=# \dm&#43;
+                                        List of relations
+ Schema | Name |       Type        |  Owner   | Persistence | Access Method | Size  | Description 
+--------&#43;------&#43;-------------------&#43;----------&#43;-------------&#43;---------------&#43;-------&#43;-------------
+ public | mymv | materialized view | laetitia | permanent   | heap          | 16 kB | 
+(1 row)
+
+laetitia=# \dmS
+              List of relations
+ Schema | Name |       Type        |  Owner   
+--------&#43;------&#43;-------------------&#43;----------
+ public | mymv | materialized view | laetitia
+(1 row) </code></pre>This feature is available
+since Postgres 9.3.
+	</div>
+   </div>
+   <div id='tip081'>
+    <a href='#tip081'><h2 class='breath'>Psql Tip #081</h2></a>
+    <div class="tip">
+	  <code>\ds</code> will display the list of user created and visible
+	  sequences. <code>\ds pattern</code> will list
+	  sequences matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence,
+	  size and description.
+	  The <code>S</code> modifier will also display the system sequences.
+      <pre><code class="hljs bash">laetitia=# \ds
+                  List of relations
+ Schema |         Name          |   Type   |  Owner   
+--------&#43;-----------------------&#43;----------&#43;----------
+ public | mytest_id_seq         | sequence | test
+ public | partition_test_id_seq | sequence | laetitia
+ public | test_id_seq           | sequence | laetitia
+(3 rows)
+
+(3 rows)
+
+laetitia=# \ds&#43;
+ Schema |         Name          |   Type   |  Owner   | Persistence |    Size    | Description 
+--------&#43;-----------------------&#43;----------&#43;----------&#43;-------------&#43;------------&#43;-------------
+ public | mytest_id_seq         | sequence | test     | permanent   | 8192 bytes | 
+ public | partition_test_id_seq | sequence | laetitia | permanent   | 8192 bytes | 
+ public | test_id_seq           | sequence | laetitia | permanent   | 8192 bytes | 
+                                       List of relations
+laetitia=# \dsS
+                  List of relations
+ Schema |         Name          |   Type   |  Owner   
+--------&#43;-----------------------&#43;----------&#43;----------
+ public | mytest_id_seq         | sequence | test
+ public | partition_test_id_seq | sequence | laetitia
+ public | test_id_seq           | sequence | laetitia
+(3 rows)</code></pre>This feature is available
+since at least Postgres 7.1, but has been upgraded in Postgres 7.2 to add the <code>S</code>
+modifier and in Postgres 8.4 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip082'>
+    <a href='#tip082'><h2 class='breath'>Psql Tip #082</h2></a>
+    <div class="tip">
+	  <code>\dt</code> will display the list of user created and visible
+	  tables. <code>\dt pattern</code> will list
+	  tables matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence,
+	  size and description.
+	  The <code>S</code> modifier will also display the system tables.
+      <pre><code class="hljs bash">laetitia=# \dt
+                    List of relations
+ Schema |      Name       |       Type        |  Owner
+--------&#43;-----------------&#43;-------------------&#43;----------
+ public | animal          | table             | laetitia
+ public | first_partition | table             | laetitia
+ public | mytest          | table             | test
+ public | partition_test  | partitioned table | laetitia
+ public | test            | table             | laetitia
+(5 rows)
+
+laetitia=# \dt&#43;
+                                                 List of relations
+ Schema |      Name       |       Type        |  Owner   | Persistence | Access Method |    Size    |  Description
+--------&#43;-----------------&#43;-------------------&#43;----------&#43;-------------&#43;---------------&#43;------------&#43;---------------
+ public | animal          | table             | laetitia | permanent   | heap          | 16 kB      |
+ public | first_partition | table             | laetitia | permanent   | heap          | 8192 bytes |
+ public | mytest          | table             | test     | permanent   | heap          | 0 bytes    |
+ public | partition_test  | partitioned table | laetitia | permanent   |               | 0 bytes    |
+ public | test            | table             | laetitia | permanent   | heap          | 16 kB      | table comment
+(5 rows)
+
+laetitia=# \dtS
+                          List of relations
+   Schema   |          Name           |       Type        |  Owner
+------------&#43;-------------------------&#43;-------------------&#43;----------
+ pg_catalog | pg_aggregate            | table             | postgres
+ pg_catalog | pg_am                   | table             | postgres
+[...]
+ public     | partition_test          | partitioned table | laetitia
+ public     | test                    | table             | laetitia
+(67 rows)</code></pre>This feature is available
+since at least Postgres 7.1, but has been upgraded in Postgres 7.2 to add the <code>S</code>
+modifier and in Postgres 8.4 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip083'>
+    <a href='#tip083'><h2 class='breath'>Psql Tip #083</h2></a>
+    <div class="tip">
+	  <code>\dv</code> will display the list of user created and visible
+	  views. <code>\dv pattern</code> will list
+	  views matching the pattern.
+	  The <code>&#43;</code> modifier will also display persistence,
+	  size and description.
+	  The <code>S</code> modifier will also display the system views.
+      <pre><code class="hljs bash">laetitia=# \dv
+         List of relations
+ Schema |  Name  | Type |  Owner
+--------&#43;--------&#43;------&#43;----------
+ public | myview | view | laetitia
+(1 row)
+
+laetitia=# \dv&#43;
+                            List of relations
+ Schema |  Name  | Type |  Owner   | Persistence |  Size   | Description
+--------&#43;--------&#43;------&#43;----------&#43;-------------&#43;---------&#43;-------------
+ public | myview | view | laetitia | permanent   | 0 bytes |
+(1 row)
+
+laetitia=# \dvS
+                       List of relations
+   Schema   |              Name               | Type |  Owner
+------------&#43;---------------------------------&#43;------&#43;----------
+ pg_catalog | pg_available_extension_versions | view | postgres
+ pg_catalog | pg_available_extensions         | view | postgres
+[...]
+ pg_catalog | pg_views                        | view | postgres
+ public     | myview                          | view | laetitia
+(72 rows)</code></pre>This feature is available
+since at least Postgres 7.1, but has been upgraded in Postgres 7.2 to add the <code>S</code>
+modifier and in Postgres 8.4 to add the <code>&#43;</code> modifier.
+	</div>
+   </div>
+   <div id='tip084'>
+    <a href='#tip084'><h2 class='breath'>Psql Tip #084</h2></a>
+    <div class="tip">
+	  <code>\des</code> will display a list of user create and visible foreign
+	  servers. <code>\des pattern</code> will list
+	  foreign servers matching the pattern.
+	  The <code>&#43;</code> modifier will also display access privileges, type, version, FDW option and description.
+      <pre><code class="hljs bash">laetitia=# \des
+         List of foreign servers
+ Name  |  Owner   | Foreign-data wrapper 
+-------&#43;----------&#43;----------------------
+ pglog | laetitia | file_fdw
+(1 row)
+
+laetitia=# \des&#43;
+                                         List of foreign servers
+ Name  |  Owner   | Foreign-data wrapper | Access privileges | Type | Version | FDW options | Description 
+-------&#43;----------&#43;----------------------&#43;-------------------&#43;------&#43;---------&#43;-------------&#43;-------------
+ pglog | laetitia | file_fdw             |                   |      |         |             | 
+(1 row)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip085'>
+    <a href='#tip085'><h2 class='breath'>Psql Tip #085</h2></a>
+    <div class="tip">
+	  <code>\det</code> will display a list of user created and visible foreign
+	  tables. <code>\det pattern</code> will list
+	  foreign ables matching the pattern.
+	  The <code>&#43;</code> modifier will also display FDW option and description.
+      <pre><code class="hljs bash">laetitia=# \det
+ List of foreign tables
+ Schema | Table | Server 
+--------&#43;-------&#43;--------
+ public | logs  | pglog
+(1 row)
+
+laetitia=# \det&#43;
+                                List of foreign tables
+ Schema | Table | Server |                  FDW options                  | Description 
+--------&#43;-------&#43;--------&#43;-----------------------------------------------&#43;-------------
+ public | logs  | pglog  | (filename 'postgresql-Sun.csv', format 'csv') | 
+(1 row)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip086'>
+    <a href='#tip086'><h2 class='breath'>Psql Tip #086</h2></a>
+    <div class="tip">
+	  <code>\df</code> will display a list of user created and visible
+	  functions. <code>\df pattern</code> will list
+	  functions matching the pattern.
+	  The <code>&#43;</code> modifier will also display volatility, parallel safety,
+	  owner, security, access privileges, language, source code and description.
+	  The <code>S</code> modifier will also display the system functions.
+      <pre><code class="hljs bash">laetitia=# \df
+                              List of functions
+ Schema |        Name        | Result data type | Argument data types | Type 
+--------&#43;--------------------&#43;------------------&#43;---------------------&#43;------
+ public | file_fdw_handler   | fdw_handler      |                     | func
+ public | file_fdw_validator | void             | text[], oid         | func
+(2 rows)
+
+laetitia=# \df&#43;
+                                                                                      List of functions
+ Schema |        Name        | Result data type | Argument data types | Type | Volatility | Parallel |  Owner   | Security | Access privileges | Language |    Source code     | Description 
+--------&#43;--------------------&#43;------------------&#43;---------------------&#43;------&#43;------------&#43;----------&#43;----------&#43;----------&#43;-------------------&#43;----------&#43;--------------------&#43;-------------
+ public | file_fdw_handler   | fdw_handler      |                     | func | volatile   | unsafe   | laetitia | invoker  |                   | c        | file_fdw_handler   | 
+ public | file_fdw_validator | void             | text[], oid         | func | volatile   | unsafe   | laetitia | invoker  |                   | c        | file_fdw_validator | 
+(2 rows)
+
+laetitia=# \dfS xpath*
+                             List of functions
+   Schema   |     Name     | Result data type | Argument data types | Type 
+------------&#43;--------------&#43;------------------&#43;---------------------&#43;------
+ pg_catalog | xpath        | xml[]            | text, xml           | func
+ pg_catalog | xpath        | xml[]            | text, xml, text[]   | func
+ pg_catalog | xpath_exists | boolean          | text, xml           | func
+ pg_catalog | xpath_exists | boolean          | text, xml, text[]   | func
+(4 rows)</code></pre>This feature is available
+since at least Postgres 7.1, but has been upgraded in Postgres 8.0 to add the
+<code>&#43;</code> modifier and in Postgres 8.4 to add the <code>S</code> modifier.
+	</div>
+   </div>
+   <div id='tip087'>
+    <a href='#tip087'><h2 class='breath'>Psql Tip #087</h2></a>
+    <div class="tip">
+	  You can use the <code>a</code> modifier to list only aggregate functions with the
+	  <code>\df</code> meta command.
+      <pre><code class="hljs bash">laetitia=# \dfa variance 
+                           List of functions
+   Schema   |   Name   | Result data type | Argument data types | Type 
+------------&#43;----------&#43;------------------&#43;---------------------&#43;------
+ pg_catalog | variance | numeric          | bigint              | agg
+ pg_catalog | variance | double precision | double precision    | agg
+ pg_catalog | variance | numeric          | integer             | agg
+ pg_catalog | variance | numeric          | numeric             | agg
+ pg_catalog | variance | double precision | real                | agg
+ pg_catalog | variance | numeric          | smallint            | agg
+(6 rows)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip088'>
+    <a href='#tip088'><h2 class='breath'>Psql Tip #088</h2></a>
+    <div class="tip">
+	  You can use the <code>n</code> modifier to list only "normal" functions with the
+	  <code>\df</code> meta command.
+      <pre><code class="hljs bash">laetitia=# \dfn
+                              List of functions
+ Schema |        Name        | Result data type | Argument data types | Type 
+--------&#43;--------------------&#43;------------------&#43;---------------------&#43;------
+ public | file_fdw_handler   | fdw_handler      |                     | func
+ public | file_fdw_validator | void             | text[], oid         | func
+(2 rows)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip089'>
+    <a href='#tip089'><h2 class='breath'>Psql Tip #089</h2></a>
+    <div class="tip">
+	  You can use the <code>p</code> modifier to list only procedures with the
+	  <code>\df</code> meta command.
+      <pre><code class="hljs bash">laetitia=# \dfp
+                          List of functions
+ Schema |    Name    | Result data type | Argument data types | Type 
+--------&#43;------------&#43;------------------&#43;---------------------&#43;------
+ public | inset_data |                  | a text              | proc
+(1 row)</code></pre>This feature is available
+since Postgres 11.
+	</div>
+   </div>
+   <div id='tip090'>
+    <a href='#tip090'><h2 class='breath'>Psql Tip #090</h2></a>
+    <div class="tip">
+	  You can use the <code>t</code> modifier to list only "trigger" functions with the
+	  <code>\df</code> meta command.
+      <pre><code class="hljs bash">laetitia=# \dftS
+                                        List of functions
+   Schema   |                Name                | Result data type | Argument data types | Type 
+------------&#43;------------------------------------&#43;------------------&#43;---------------------&#43;------
+ pg_catalog | RI_FKey_cascade_del                | trigger          |                     | func
+ pg_catalog | RI_FKey_cascade_upd                | trigger          |                     | func
+ pg_catalog | RI_FKey_check_ins                  | trigger          |                     | func
+ pg_catalog | RI_FKey_check_upd                  | trigger          |                     | func
+ pg_catalog | RI_FKey_noaction_del               | trigger          |                     | func
+ pg_catalog | RI_FKey_noaction_upd               | trigger          |                     | func
+ pg_catalog | RI_FKey_restrict_del               | trigger          |                     | func
+ pg_catalog | RI_FKey_restrict_upd               | trigger          |                     | func
+ pg_catalog | RI_FKey_setdefault_del             | trigger          |                     | func
+ pg_catalog | RI_FKey_setdefault_upd             | trigger          |                     | func
+ pg_catalog | RI_FKey_setnull_del                | trigger          |                     | func
+ pg_catalog | RI_FKey_setnull_upd                | trigger          |                     | func
+ pg_catalog | suppress_redundant_updates_trigger | trigger          |                     | func
+ pg_catalog | trigger_in                         | trigger          | cstring             | func
+ pg_catalog | tsvector_update_trigger            | trigger          |                     | func
+ pg_catalog | tsvector_update_trigger_column     | trigger          |                     | func
+ pg_catalog | unique_key_recheck                 | trigger          |                     | func
+(17 rows)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip091'>
+    <a href='#tip091'><h2 class='breath'>Psql Tip #091</h2></a>
+    <div class="tip">
+	  You can use the <code>w</code> modifier to list only "window" functions with the
+	  <code>\df</code> meta command.
+      <pre><code class="hljs bash">laetitia=# \dfwS
+                                       List of functions
+   Schema   |     Name     | Result data type |          Argument data types          |  Type  
+------------&#43;--------------&#43;------------------&#43;---------------------------------------&#43;--------
+ pg_catalog | cume_dist    | double precision |                                       | window
+ pg_catalog | dense_rank   | bigint           |                                       | window
+ pg_catalog | first_value  | anyelement       | anyelement                            | window
+ pg_catalog | lag          | anycompatible    | anycompatible, integer, anycompatible | window
+ pg_catalog | lag          | anyelement       | anyelement                            | window
+ pg_catalog | lag          | anyelement       | anyelement, integer                   | window
+ pg_catalog | last_value   | anyelement       | anyelement                            | window
+ pg_catalog | lead         | anycompatible    | anycompatible, integer, anycompatible | window
+ pg_catalog | lead         | anyelement       | anyelement                            | window
+ pg_catalog | lead         | anyelement       | anyelement, integer                   | window
+ pg_catalog | nth_value    | anyelement       | anyelement, integer                   | window
+ pg_catalog | ntile        | integer          | integer                               | window
+ pg_catalog | percent_rank | double precision |                                       | window
+ pg_catalog | rank         | bigint           |                                       | window
+ pg_catalog | row_number   | bigint           |                                       | window
+(15 rows)</code></pre>This feature is available
+since Postgres 8.4.
+	</div>
+   </div>
+   <div id='tip092'>
+    <a href='#tip092'><h2 class='breath'>Psql Tip #092</h2></a>
+    <div class="tip">
+	  The description column displayed when using the <code>&#43;</code> modifier of a <code>\d</code>
+	  metacommand can be filled using the <code>comment</code> SQL command.
+      <pre><code class="hljs bash">laetitia=# \d&#43; test
+                                                       Table "public.test"
+ Column |  Type   | Collation | Nullable |           Default            | Storage  | Compression | Stats target |  Description   
+--------&#43;---------&#43;-----------&#43;----------&#43;------------------------------&#43;----------&#43;-------------&#43;--------------&#43;----------------
+ id     | integer |           | not null | generated always as identity | plain    |             |              | 
+ value  | text    |           | not null |                              | extended | pglz        |              | column comment
+Indexes:
+    "test_value_key" UNIQUE CONSTRAINT, btree (value)
+Access method: heap
+
+laetitia=# comment on column test.id IS 'My awesome comment';
+COMMENT
+laetitia=# \d&#43; test
+                                                         Table "public.test"
+ Column |  Type   | Collation | Nullable |           Default            | Storage  | Compression | Stats target |    Description     
+--------&#43;---------&#43;-----------&#43;----------&#43;------------------------------&#43;----------&#43;-------------&#43;--------------&#43;--------------------
+ id     | integer |           | not null | generated always as identity | plain    |             |              | My awesome comment
+ value  | text    |           | not null |                              | extended | pglz        |              | column comment
+Indexes:
+    "test_value_key" UNIQUE CONSTRAINT, btree (value)
+Access method: heap</code></pre>This feature is available
+since at least Postgres 7.1 for the <code>comment</code> SQL command. the <code>&#43;</code> modifier
+appeared in different version, depending on the metacommand.
+ </div>
+   </div>
+   <div id='tip093'>
+    <a href='#tip093'><h2 class='breath'>Psql Tip #093</h2></a>
+    <div class="tip">
+	  <code>\dg</code> will display a list of user created and visible
+	  roles. <code>\dg pattern</code> will list
+	  roles matching the pattern.
+	  The <code>&#43;</code> modifier will also display description.
+	  The <code>S</code> modifier will also display the system roles.
+      <pre><code class="hljs bash">laetitia=# \dg
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------&#43;------------------------------------------------------------&#43;-----------
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {}
+
+laetitia=# \dg&#43;
+                                          List of roles
+ Role name |                         Attributes                         | Member of | Description 
+-----------&#43;------------------------------------------------------------&#43;-----------&#43;-------------
+ laetitia  | Superuser                                                  | {}        | 
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}        | 
+ test      |                                                            | {}        | 
+
+laetitia=# \dgS
+                                                                     List of roles
+         Role name         |                         Attributes                         |                          Member of                           
+---------------------------&#43;------------------------------------------------------------&#43;--------------------------------------------------------------
+ laetitia                  | Superuser                                                  | {}
+ pg_execute_server_program | Cannot login                                               | {}
+ pg_monitor                | Cannot login                                               | {pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables}
+ pg_read_all_settings      | Cannot login                                               | {}
+ pg_read_all_stats         | Cannot login                                               | {}
+ pg_read_server_files      | Cannot login                                               | {}
+ pg_signal_backend         | Cannot login                                               | {}
+ pg_stat_scan_tables       | Cannot login                                               | {}
+ pg_write_server_files     | Cannot login                                               | {}
+ postgres                  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test                      |                                                            | {} </code></pre>This feature is available
+since Postgres 8.0, but has been upgraded in Postgres 8.4 to add the
+<code>&#43;</code> modifier and in Postgres 9.6 to add the <code>S</code> modifier.
+	</div>
+   </div>
+   <div id='tip094'>
+    <a href='#tip094'><h2 class='breath'>Psql Tip #094</h2></a>
+    <div class="tip">
+	  <code>\dl</code> will list the large objects in this database.
+      <pre><code class="hljs bash">laetitia=# \dl
+      Large objects
+ ID | Owner | Description 
+----&#43;-------&#43;-------------
+(0 rows)</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip095'>
+    <a href='#tip095'><h2 class='breath'>Psql Tip #095</h2></a>
+	<div class="tip">
+	  <code>\dL</code> will display a list of user created and visible
+	  procedural languages. <code>\df pattern</code> will list
+	  functions matching the pattern.
+	  The <code>+</code> modifier will also display if it's an internal language,
+	  the call handler, the validator, the inline handler,
+	  access privileges and description.
+	  The <code>S</code> modifier will also display the system procedural languages.
+      <pre><code class="hljs bash">laetitia=<span class="hljs-comment"># \dl</span>
+      Large objects
+ ID | Owner | Description 
+----+-------+-------------
+(0 rows)
+
+laetitia=<span class="hljs-comment"># \dL</span>
+                      List of languages
+  Name   |  Owner   | Trusted |         Description          
+---------+----------+---------+------------------------------
+ plpgsql | postgres | t       | PL/pgSQL procedural language
+(1 row)
+
+laetitia=<span class="hljs-comment"># \dL+</span>
+                                                                                    List of languages
+  Name   |  Owner   | Trusted | Internal language |      Call handler      |       Validator        |          Inline handler          | Access privileges |         Description          
+---------+----------+---------+-------------------+------------------------+------------------------+----------------------------------+-------------------+------------------------------
+ plpgsql | postgres | t       | f                 | plpgsql_call_handler() | plpgsql_validator(oid) | plpgsql_inline_handler(internal) |                   | PL/pgSQL procedural language
+(1 row)
+
+laetitia=<span class="hljs-comment"># \dLS</span>
+                       List of languages
+   Name   |  Owner   | Trusted |          Description           
+----------+----------+---------+--------------------------------
+ c        | postgres | f       | dynamically-loaded C <span class="hljs-built_in">functions</span>
+ internal | postgres | f       | built-in <span class="hljs-built_in">functions</span>
+ plpgsql  | postgres | t       | PL/pgSQL procedural language
+ sql      | postgres | t       | SQL-language <span class="hljs-built_in">functions</span>
+(4 rows)</code></pre>This feature is available
+since at least Postgres 7.1, but has been upgraded in Postgres 8.0 to add the
+<code>+</code> modifier and in Postgres 8.4 to add the <code>S</code> modifier.
+	</div>
+   </div>
+   <div id='tip096'>
+    <a href='#tip096'><h2 class='breath'>Psql Tip #096</h2></a>
+    <div class="tip">
+	  <code>\dp</code> will display a list of tables, views and sequences
+	  with their associated access privileges.
+	  <code>\dp pattern</code> will list
+	  only tables, views and sequences whose names match the pattern are listed.
+      The access privileges column signification is explained in <a href="https://www.postgresql.org/docs/current/ddl-priv.html#PRIVILEGES-SUMMARY-TABLE">table 5.2</a>.
+      <pre><code class="hljs bash">ilaetitia=# \dp
+                                               Access privileges
+ Schema |         Name          |       Type        |     Access privileges     | Column privileges | Policies 
+--------+-----------------------+-------------------+---------------------------+-------------------+----------
+ public | animal                | table             |                           |                   | 
+ public | first_partition       | table             |                           |                   | 
+ public | logs                  | foreign table     |                           |                   | 
+ public | mymv                  | materialized view |                           |                   | 
+ public | mytest                | table             |                           |                   | 
+ public | mytest_id_seq         | sequence          |                           |                   | 
+ public | myview                | view              |                           |                   | 
+ public | partition_test        | partitioned table |                           |                   | 
+ public | partition_test_id_seq | sequence          |                           |                   | 
+ public | test                  | table             | laetitia=arwdDxt/laetitia |                   | 
+ public | test_id_seq           | sequence          |                           |                   | 
+(11 rows)</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip097'>
+    <a href='#tip097'><h2 class='breath'>Psql Tip #097</h2></a>
+    <div class="tip">
+	  <code>\dP</code> will display a list of partitioned tables and indexes.
+	  <code>\dP pattern</code> will list partitioned tables and indexes
+	  matching the pattern.
+	  The <code>&#43;</code> modifier will also display the size and the
+	  description.
+      <pre><code class="hljs bash">laetitia=# \dP
+                         List of partitioned relations
+ Schema |         Name          |  Owner   |       Type        |     Table      
+--------+-----------------------+----------+-------------------+----------------
+ public | partition_test        | laetitia | partitioned table | 
+ public | partition_test_id_idx | laetitia | partitioned index | partition_test
+(2 rows)
+
+laetitia=# \dP+
+                                       List of partitioned relations
+ Schema |         Name          |  Owner   |       Type        |     Table      | Total size | Description 
+--------+-----------------------+----------+-------------------+----------------+------------+-------------
+ public | partition_test        | laetitia | partitioned table |                | 8192 bytes | 
+ public | partition_test_id_idx | laetitia | partitioned index | partition_test | 8192 bytes | 
+(2 rows)</code></pre>This feature is available
+since Postgres 12.
+	</div>
+   </div>
+   <div id='tip098'>
+    <a href='#tip098'><h2 class='breath'>Psql Tip #098</h2></a>
+    <div class="tip">
+	  the <code>i</code> modifier appended to the <code>dP</code> metacommand will list only
+	  partitioned indexes.
+      <pre><code class="hljs bash">ilaetitia=# \dPi
+                List of partitioned indexes
+ Schema |         Name          |  Owner   |     Table      
+--------+-----------------------+----------+----------------
+ public | partition_test_id_idx | laetitia | partition_test
+(1 row)</code></pre>This feature is available
+since Postgres 12.
+	</div>
+   </div>
+   <div id='tip099'>
+    <a href='#tip099'><h2 class='breath'>Psql Tip #099</h2></a>
+    <div class="tip">
+	  the <code>t</code> modifier appended to the <code>dP</code> metacommand will list only
+	  partitioned tables.
+      <pre><code class="hljs bash">laetitia=# \dPt
+     List of partitioned tables
+ Schema |      Name      |  Owner   
+--------+----------------+----------
+ public | partition_test | laetitia
+(1 row)
+
+laetitia=# \dPt+
+                  List of partitioned tables
+ Schema |      Name      |  Owner   | Total size | Description 
+--------+----------------+----------+------------+-------------
+ public | partition_test | laetitia | 8192 bytes | 
+(1 row)</code></pre>This feature is available
+since Postgres 12.
+	</div>
+   </div>
+   <div id='tip100'>
+    <a href='#tip100'><h2 class='breath'>Psql Tip #100</h2></a>
+    <div class="tip">
+	  the <code>n</code> modifier appended to the <code>dP</code> metacommand will list also
+	  non-root partitioned tables and ndexes. A column displaying also the
+	  parent name is added to teh result.
+      <pre><code class="hljs bash">laetitia=# \dPn
+                                List of partitioned relations
+ Schema |         Name          |  Owner   |       Type        | Parent name |     Table      
+--------+-----------------------+----------+-------------------+-------------+----------------
+ public | partition_test        | laetitia | partitioned table |             | 
+ public | partition_test_id_idx | laetitia | partitioned index |             | partition_test
+(2 rows)
+
+laetitia=# \dPn+
+                                                         List of partitioned relations
+ Schema |         Name          |  Owner   |       Type        | Parent name |     Table      | Leaf partition size | Total size | Description 
+--------+-----------------------+----------+-------------------+-------------+----------------+---------------------+------------+-------------
+ public | partition_test        | laetitia | partitioned table |             |                | 8192 bytes          | 8192 bytes | 
+ public | partition_test_id_idx | laetitia | partitioned index |             | partition_test | 8192 bytes          | 8192 bytes | 
+(2 rows)</code></pre>This feature is available
+since Postgres 12.
+	</div>
+   </div>
+   <div id='tip101'>
+    <a href='#tip101'><h2 class='breath'>Psql Tip #101</h2></a>
+    <div class="tip">
+	  <code>\copy ... to ...</code> will allow you to copy data to a file on the client
+	  host.
+      <pre><code class="hljs bash">laetitia=# \copy (select * from test) to mydata.dmp
+COPY 2
+laetitia=# \! cat mydata.dmp
+1       test
+5       blabla</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip102'>
+    <a href='#tip102'><h2 class='breath'>Psql Tip #102</h2></a>
+    <div class="tip">
+      <code>\copy</code> will allow you to copy data from something into a table (something
+		might be the result of a command, a program, stdin...)
+		<pre><code class="hljs bash">laetitia=# \copy test(value) from stdin
+Enter data to be copied followed by a newline.
+End with a backslash and a period on a line by itself, or an EOF signal.
+>> value1
+>> value2
+>> \.
+COPY 2
+laetitia=# select * from test;
+ id | value  
+----+--------
+  1 | test
+  5 | blabla
+  6 | value1
+  7 | value2
+(4 rows)</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip103'>
+    <a href='#tip103'><h2 class='breath'>Psql Tip #103</h2></a>
+    <div class="tip">
+	  <code>\copy</code> is different than the SQL command <code>copy</code> in that the <code>\copy</code>
+	  meta-command will be played from the client side without superuer
+	  permissions while the <code>copy</code> SQL command needs database superuser or users
+	  users who are granted one of the default roles <code>pg_read_server_files</code>,
+	  <code>pg_write_server_files</code>, or <code>pg_execute_server_program</code>.
+      <pre><code class="hljs bash">laetitia=# \c laetitia test
+You are now connected to database "laetitia" as user "test".
+laetitia=> \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {}
+
+laetitia=> \copy (select * from test) to mydata.dmp
+COPY 4
+laetitia=> \! cat mydata.dmp
+1       test
+5       blabla
+6       value1
+7       value2</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip104'>
+    <a href='#tip104'><h2 class='breath'>Psql Tip #104</h2></a>
+    <div class="tip">
+	  <code>\copy</code> is less efficient than the SQL command <code>copy</code> because all data
+	  must pass through the client/server connection. For large amount of data,
+	  the SQL command is better.
+      This feature is available since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip105'>
+    <a href='#tip105'><h2 class='breath'>Psql Tip #105</h2></a>
+    <div class="tip">
+      The default delimiter for text entry in stdin (either using the <code>\copy</code>
+		meta-command or the <code>copy</code> SQL command) is a tabulation.
+		<pre><code class="hljs bash">laetitia=> create table data(d1 integer, d2 date);
+CREATE TABLE
+laetitia=> \copy data from stdin
+Enter data to be copied followed by a newline.
+End with a backslash and a period on a line by itself, or an EOF signal.
+>> 1    '2021-04-12'
+>> 2 '2021-04-13'
+>> \. 
+ERROR:  invalid input syntax for type integer: "2 '2021-04-13'"
+CONTEXT:  COPY data, line 2, column d1: "2 '2021-04-13'"</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip106'>
+    <a href='#tip106'><h2 class='breath'>Psql Tip #106</h2></a>
+    <div class="tip">
+      <code>\crosstabview</code> is a meta-command that will create a crosstabview from the
+	  query in the current query buffer.
+	  By default the first column will become the column header while the second
+	  column will become the horizontal header.
+	  The data from the third column will fill the table.
+	  <pre><code class="hljs bash">laetitia=> select * from music ;
+        artist         |       album       | year 
+-----------------------+-------------------+------
+ Foo Fighters          | Concrete and Gold | 2017
+ Red Hot Chili Peppers | The Getaway       | 2016
+ Green Day             | ¡Uno!             | 2012
+(3 rows)
+
+laetitia=> \crosstabview 
+        artist         | Concrete and Gold | The Getaway | ¡Uno! 
+-----------------------+-------------------+-------------+-------
+ Foo Fighters          |              2017 |             |      
+ Red Hot Chili Peppers |                   |        2016 |      
+ Green Day             |                   |             |  2012
+(3 rows)</code></pre>This feature is available
+since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip107'>
+    <a href='#tip107'><h2 class='breath'>Psql Tip #107</h2></a>
+    <div class="tip">
+	  You can pass the name of the columns to use as Vertical and Horizontal
+	  headers to the <code>\croostabview</code> meta-command.
+      <pre><code class="hljs bash">laetitia=> select * from music ;
+        artist         |       album       | year 
+-----------------------+-------------------+------
+ Foo Fighters          | Concrete and Gold | 2017
+ Red Hot Chili Peppers | The Getaway       | 2016
+ Green Day             | ¡Uno!             | 2012
+(3 rows)
+
+laetitia=> laetitia=> \crosstabview artist year
+        artist         |       2017        |    2016     | 2012  
+-----------------------+-------------------+-------------+-------
+ Foo Fighters          | Concrete and Gold |             | 
+ Red Hot Chili Peppers |                   | The Getaway | 
+ Green Day             |                   |             | ¡Uno!
+(3 rows)</code></pre>This feature is available
+since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip108'>
+    <a href='#tip108'><h2 class='breath'>Psql Tip #108</h2></a>
+    <div class="tip">
+	  You can pass the number of the columns to use as Vertical and Horizontal
+	  headers to the <code>\croostabview</code> meta-command as you would use number of
+	  columns in an <code>order by</code> SQL clause.
+      <pre><code class="hljs bash">laetitia=> select * from music ;
+        artist         |       album       | year 
+-----------------------+-------------------+------
+ Foo Fighters          | Concrete and Gold | 2017
+ Red Hot Chili Peppers | The Getaway       | 2016
+ Green Day             | ¡Uno!             | 2012
+(3 rows)
+
+laetitia=> laetitia=> \crosstabview 1 3
+        artist         |       2017        |    2016     | 2012  
+-----------------------+-------------------+-------------+-------
+ Foo Fighters          | Concrete and Gold |             | 
+ Red Hot Chili Peppers |                   | The Getaway | 
+ Green Day             |                   |             | ¡Uno!
+(3 rows)</code></pre>This feature is available
+since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip109'>
+    <a href='#tip109'><h2 class='breath'>Psql Tip #109</h2></a>
+    <div class="tip">
+	  The <code>\rds</code> meta-command will display the specific role based or database
+	  based settings.
+      <pre><code class="hljs bash">laetitia=# \drds
+             List of settings
+   Role   | Database |      Settings      
+----------+----------+--------------------
+ laetitia |          | work_mem=250MB
+          | laetitia | search_path=public+
+          |          | work_mem=500MB
+(2 rows)
+
+laetitia=# \drds * laetitia
+           List of settings
+ Role | Database |      Settings      
+------+----------+--------------------
+      | laetitia | search_path=public+
+      |          | work_mem=500MB
+(1 row)
+
+laetitia=# \drds laetitia
+           List of settings
+   Role   | Database |    Settings    
+----------+----------+----------------
+ laetitia |          | work_mem=250MB
+(1 row)</code></pre>This feature is available
+since Postgres 9.0.
+	</div>
+   </div>
+   <div id='tip110'>
+    <a href='#tip110'><h2 class='breath'>Psql Tip #110</h2></a>
+    <div class="tip">
+	  <code>\dT</code> will display a list of data types. The <code>S</code> modifier will allow to
+	  list system data types too. <code>\dT pattern</code> will list data types matching
+	  the pattern. the <code>+</code> Internal name, size, Elements, Owner and Access
+	  privileges.
+      <pre><code class="hljs bash">laetitia=# \dT
+          List of data types
+ Schema |     Name      | Description 
+--------+---------------+-------------
+ public | one_word_only | 
+(1 row)
+
+laetitia=# \dTS line
+         List of data types
+   Schema   | Name |  Description   
+------------+------+----------------
+ pg_catalog | line | geometric line
+(1 row)
+
+laetitia=# \dT+
+                                          List of data types
+ Schema |     Name      | Internal name | Size | Elements |  Owner   | Access privileges | Description 
+--------+---------------+---------------+------+----------+----------+-------------------+-------------
+ public | one_word_only | one_word_only | var  |          | laetitia |                   | 
+(1 row)</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+    <div class="breath">
+      See <a href=
+      "https://www.postgresql.org/docs/current/app-psql.html">Postgres
+      documentation</a> for more information.
+    </div><a href="#" class="myButton" onclick=
+    "pickATip();">Try a new tip</a><a href="psql_tips_all.html" class="myButton"
+    >See them all</a>
+  </main>
+  <footer>
+    <p class="copyright text-muted">© All rights reserved. Powered
+    by <a href="https://gohugo.io">Hugo</a> and <a href=
+    "https://github.com/calintat/minimal">Minimal</a></p>
+  </footer>
+</body>
+</html>
+

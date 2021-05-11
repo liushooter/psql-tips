@@ -1,0 +1,136 @@
+.intro h1,h1, h2, h3, h4, h5,h6 { color: #337ab7 !important;
+}
+
+.item h4 {
+  font-size: 36px;
+}
+
+html body {
+  font-size: 18px;
+}
+
+table.tour {
+    min-width: 750px;
+    border: none;
+    border-collapse: collapse;
+    border-top: 1px solid #CCC;
+    margin: 2em 0 1em 0;
+}
+
+table.tour tr th, table.tour tr td {
+    padding: 6px 8px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+table.tour tr th, table.tour tr td {
+    border-bottom: 1px solid #CCC;
+}
+
+th {
+    font-weight: bold;
+}
+
+table.tour tr.basic td {
+    border-bottom: 1px solid #EEE;
+}
+
+table.tour tr.info td {
+    border-bottom: 1px solid #CCC;
+    color: #666;
+    padding-left: 2em;
+}
+
+table.tour tr.info2 td {
+    border-bottom: 1px solid #EEE;
+    color: #666;
+    padding-left: 2em;
+}
+
+td.city {
+    font-weight: bold;
+}
+
+.important{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.edit{
+    font-weight: bold;
+    color: #337ab7 !important;
+}
+
+.old{
+    color: #ccc !important;
+}
+
+table.tour tr.old td {
+    color: #ccc !important;
+}
+
+.old a {
+    color: #8cbce6;
+}
+
+div.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* This is for the psql tip page */
+h2.breath{
+    padding-bottom: 30px;
+}
+
+div.breath{
+    padding-top: 30px;
+}
+
+div.tip {
+    text-align: left;
+}
+
+div.tip pre {
+    margin-top: 30px
+}
+
+a.myButton, a.myButton:active, a.myButton:hover {
+    border-radius:28px;
+    display:inline-block;
+    cursor:pointer;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    margin-top: 30px;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+a.myButton {
+    background-color:#3379b7;
+    border:1px solid #3379b7;
+    color:#ffffff;
+}
+
+
+a.myButton:hover, a.myButton:active {
+    background-color:#ffffff;
+    border:1px solid #3379b7;
+    color: #3379b7;
+}
+
+.code {
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+pre code.hljs {
+  white-space: unset;
+}
+
+img.example {
+  text-align: center;
+  Margin: auto;
+  Display: flex;
+  Margin-top: 10px;
+}
