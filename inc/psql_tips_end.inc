@@ -7,8 +7,7 @@
     >See them all</a>
   </main>
   <footer>
-    <p class="copyright text-muted">© All rights reserved. Powered
-    by <a href="https://gohugo.io">Hugo</a> and <a href=
+    <p>Theme inspired by <a href=
     "https://github.com/calintat/minimal">Minimal</a></p>
   </footer>
 </body>
