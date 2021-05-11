@@ -1,12 +1,14 @@
+# This file is a template, and might need editing before it works on your project.
+# Full project: https://gitlab.com/pages/plain-html
 pages:
   stage: deploy
   script:
     - mkdir .public
-    - cp *.html .public/
-    - cp -r css .public/
+    - cp html/* .public
+    - cp -r css .public
     - mv .public public
-artifacts:
-  paths:
-    - public
-only:
-  - master
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
