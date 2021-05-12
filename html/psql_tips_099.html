@@ -6,6 +6,7 @@
   "width=device-width, initial-scale=1">
   <title>psql Tips</title>
   <link rel="stylesheet" href="css/laetitia.css">
+  <link rel="stylesheet" href="css/menu.css">
   <link rel="stylesheet" href=
   "https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet"
@@ -28,7 +29,28 @@
       <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:#3379b7; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
   </a>
   <!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
-  <header id="top"><h1><code>psql</code> Tips</h1></header>
+  <menu>
+    <label for="trigger">
+    <input id="trigger" type="checkbox" />
+    <section class="drawer-list">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="https://mydbanotebook.org">My DBA Notebook</a></li>
+        <li><a href="https://mydbanotebook.org/about/me/">About</a></li>
+      </ul>
+    </section>
+    <hamburger>
+        <i></i>
+        <text>
+          <close>close</close>
+         <open>menu</open>
+        </text>
+    </hamburger>
+    </label>
+  </menu>
+  <header id="top">
+    <h1><code>psql</code> Tips</h1>
+  </header>
   <main class="Site-content">
     <h2 class='breath'>Psql Tip #099</h2>
     <div class="tip">

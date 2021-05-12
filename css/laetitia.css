@@ -15,6 +15,11 @@ body {
     padding-right: 2vw !important;
     padding-left: 2vw !important;
   }
+  menu .drawer-list { width: 25vw; }
+  menu .drawer-list li a {
+    font-size: 1rem;
+    text-align: right;
+  }
 }
 
 /* Sticky footer */
