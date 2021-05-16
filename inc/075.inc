@@ -1,7 +1,7 @@
     <div class="tip">
 	  <code>\db</code> will display a list of tablespaces. <code>\db pattern</code> will list
-	  tablesapces matching the pattern.
-	  The <code>&#43;</code> modifier will display access priviledgesi, options, size and description.
+	  tablespaces matching the pattern.
+	  The <code>&#43;</code> modifier will display access privileges, options, size and description.
       <pre><code class="hljs bash">laetitia=# \db
        List of tablespaces
     Name    |  Owner   | Location 

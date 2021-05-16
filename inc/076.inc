@@ -1,7 +1,7 @@
     <div class="tip">
 	  <code>\dD</code> will display a list of domains. <code>\dD pattern</code> will list
 	  domain matching the pattern.
-	  The <code>&#43;</code> modifier will also display access priviledges and description.
+	  The <code>&#43;</code> modifier will also display access privileges and description.
 	  The <code>S</code> modifier will also display the system domains. There is
 	  currently no system domains provided with Postgres.
       <pre><code class="hljs bash">laetitia=# \dD

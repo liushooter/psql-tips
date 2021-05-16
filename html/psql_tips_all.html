@@ -186,7 +186,7 @@ laetitia=# select * from test; \q
     <a href='#tip008'><h2 class='breath'>Psql Tip #008</h2></a>
     <div class="tip" name="8">
       Using the <code>-f</code> or <code>--filename</code> flag
-      will allow to get usefull information as error messages with
+      will allow to get useful information as error messages with
       line numbers.
       <pre><code class="hljs bash">laetitia:~$ cat query.sql
 select count(*) from test;
@@ -835,9 +835,9 @@ laetitia=#</code></pre>This feature is available since Postgres
     <a href='#tip037'><h2 class='breath'>Psql Tip #037</h2></a>
     <div class="tip" name="37">
       You can use variables in psql in non-interactive mode. the
-      flag <code>-v assignement</code> or
-      <code>--set=assignement</code> or
-      <code>--variable=assignement</code>.
+      flag <code>-v assignment</code> or
+      <code>--set=assignment</code> or
+      <code>--variable=assignment</code>.
       <pre><code class="hljs bash">laetitia:~$ cat query.sql 
 select * from :tablename;
 laetitia:~$ psql -v tablename=test -f query.sql 
@@ -860,9 +860,9 @@ Postgres 7.1.
     <a href='#tip038'><h2 class='breath'>Psql Tip #038</h2></a>
     <div class="tip" name="38">
       To unset a variable or to set a variable to an empty value in
-      non interractive mode, use the <code>-v assignement</code> or
-      <code>--set=assignement</code> or
-      <code>--variable=assignement</code> flag and leave off the
+      non interractive mode, use the <code>-v assignment</code> or
+      <code>--set=assignment</code> or
+      <code>--variable=assignment</code> flag and leave off the
       equal sign.
       <pre><code class=
       "hljs bash">laetitia:~$ psql -v var=value -c '\echo :var'
@@ -1606,7 +1606,7 @@ since Postgres 8.4.
     <div class="tip">
 	The <code>&#43;</code> modifier to the <code>\d pattern</code> metacommand will, on top of displaying
 	information about table, view, materialized view, index, sequence,
-	foreign table, or composite type matching the pattern,, display any comments
+	foreign table, or composite type matching the pattern, display any comments
 	associated with the columns of the table are shown, as is the presence of
 	OIDs in the table, the view definition if the relation is a view,
 	a non-default replica identity setting.
@@ -1627,7 +1627,7 @@ since Postgres 8.0.
     <div class="tip">
 	  <code>\dn</code> will display a list of schemas. The <code>S</code> modifier will allow to list
 	  system schemas too. <code>\dn pattern</code> will list schemas matching the pattern.
-	  The <code>&#43;</code> modifier will display access priviledges and description.
+	  The <code>&#43;</code> modifier will display access privileges and description.
       <pre><code class="hljs bash">laetitia=# \dn
   List of schemas
   Name  |  Owner   
@@ -1667,8 +1667,8 @@ in Postgres 9.0 to add the <code>S</code> modifier.
     <a href='#tip075'><h2 class='breath'>Psql Tip #075</h2></a>
     <div class="tip">
 	  <code>\db</code> will display a list of tablespaces. <code>\db pattern</code> will list
-	  tablesapces matching the pattern.
-	  The <code>&#43;</code> modifier will display access priviledgesi, options, size and description.
+	  tablespaces matching the pattern.
+	  The <code>&#43;</code> modifier will display access privileges, options, size and description.
       <pre><code class="hljs bash">laetitia=# \db
        List of tablespaces
     Name    |  Owner   | Location 
@@ -1692,7 +1692,7 @@ since Postgres 8.0.
     <div class="tip">
 	  <code>\dD</code> will display a list of domains. <code>\dD pattern</code> will list
 	  domain matching the pattern.
-	  The <code>&#43;</code> modifier will also display access priviledges and description.
+	  The <code>&#43;</code> modifier will also display access privileges and description.
 	  The <code>S</code> modifier will also display the system domains. There is
 	  currently no system domains provided with Postgres.
       <pre><code class="hljs bash">laetitia=# \dD

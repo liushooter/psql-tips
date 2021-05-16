@@ -1,8 +1,8 @@
     <div class="tip" name="37">
       You can use variables in psql in non-interactive mode. the
-      flag <code>-v assignement</code> or
-      <code>--set=assignement</code> or
-      <code>--variable=assignement</code>.
+      flag <code>-v assignment</code> or
+      <code>--set=assignment</code> or
+      <code>--variable=assignment</code>.
       <pre><code class="hljs bash">laetitia:~$ cat query.sql 
 select * from :tablename;
 laetitia:~$ psql -v tablename=test -f query.sql 
