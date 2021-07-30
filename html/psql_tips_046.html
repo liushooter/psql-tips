@@ -17,7 +17,7 @@
   <script>
     function pickATip()
     {
-      const maxTipNumber = 95;
+      const maxTipNumber = 120;
       var chosenOne=Math.floor(Math.random()*(maxTipNumber) + 1); //randomly pick one
       document.location = "psql_tips_" + chosenOne.toString().padStart(3,0) + ".html";
     }
