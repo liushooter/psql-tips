@@ -2650,8 +2650,9 @@ since at least Postgres 7.1.
     <a href='#tip112'><h2 class='breath'>Psql Tip #112</h2></a>
     <div class="tip">
 	  <code>\du</code> will display a list of users. Remember that since Postgres 8.1,
-		users and roles are the same thingi (see [Postgres
-		documentation](https://www.postgresql.org/docs/current/user-manag.html)).
+		users and roles are the same thingi (see <a
+		  href="https://www.postgresql.org/docs/current/user-manag.html)">Postgres
+		documentation</a>).<br/><br/>
 	   	The <code>S</code> modifier will allow to display system roles too.
        <code>du pattern</code> will match only roles macthing the specified <code>pattern</code>. The
 	   <code>+</code> midifier will display the description for each role.
@@ -2776,15 +2777,16 @@ laetitia=# \dx+
    <div id='tip117'>
     <a href='#tip117'><h2 class='breath'>Psql Tip #117</h2></a>
     <div class="tip">You can use the metacommand <code>\e filename linenumber</code> to
-	open a file and position teh cursor directly on rge specified line.<br/>
+	open a file and position teh cursor directly on the specified
+	line.<br/><br/>
 	If the filename is omitted, psql will open the current querry buffer (if
 	  empty the last executed query will be copied into the current querry
 	  buffer) and position the cursor on the specified line number. It means
 	  that if a single all-digits argument is given, psql will assume it's
-	  a line number.<br/>
+	  a line number.<br/><br/>
     If the line number specified is higher than the number of lines in the
 	querry buffer or in the file, the cursor will be positionned on the last
-	line.<br/>
+	line.<br/><br/>
       This feature is available since Postgres 9.1.
 	</div>
    </div>
@@ -2797,7 +2799,7 @@ laetitia=# \dx+
 test
 laetitia=# \echo <code>date</code>
 Fri Jul 30 10:13:41 CEST 2021
-laetitia=# \echo -n <code>date</code>
+laetitia=# \echo -n &#96;date&#96;
 Fri Jul 30 10:13:47 CEST 2021laetitia=#</code></pre>This feature is available
 since iat least Postgres 7.1.
 	</div>
@@ -2808,10 +2810,10 @@ since iat least Postgres 7.1.
 	use <code>\qecho</code> if you'd like the result to be written inside a file you
 	specified using the <code>\o</code> metacommand.
       <pre><code class="hljs bash">laetitia=# \o /tmp/output.out
-laetitia=# \echo <code>date</code>
+laetitia=# \echo &#96;date&#96;
 Fri Jul 30 10:23:58 CEST 2021
 laetitia=# \! cat /tmp/output.out
-laetitia=# \qecho <code>date</code>
+laetitia=# \qecho &#96;date&#96;
 laetitia=# \! cat /tmp/output.out
 Fri Jul 30 10:24:25 CEST 2021</code></pre>This feature is available
 since at least Postgres 7.1.
@@ -2821,7 +2823,7 @@ since at least Postgres 7.1.
     <a href='#tip120'><h2 class='breath'>Psql Tip #120</h2></a>
     <div class="tip">The <code> \ef function</code> metacommand will open the <code>create or
 	replace function</code> (or <code>create or replace procedure</code>) containing the code of
-	the function (or procedure) you named.<br/>
+	the function (or procedure) you named.<br/><br/>
 	If there are several functions with the same name, you will need to add the
 	signature of the function so psql knows which one needs modification.
       <pre><code class="hljs bash">laetitia=# \df add_em

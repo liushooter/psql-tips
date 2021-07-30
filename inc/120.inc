@@ -1,6 +1,6 @@
     <div class="tip">The <code> \ef function</code> metacommand will open the <code>create or
 	replace function</code> (or <code>create or replace procedure</code>) containing the code of
-	the function (or procedure) you named.<br/>
+	the function (or procedure) you named.<br/><br/>
 	If there are several functions with the same name, you will need to add the
 	signature of the function so psql knows which one needs modification.
       <pre><code class="hljs bash">laetitia=# \df add_em

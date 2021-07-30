@@ -1,7 +1,8 @@
     <div class="tip">
 	  <code>\du</code> will display a list of users. Remember that since Postgres 8.1,
-		users and roles are the same thingi (see [Postgres
-		documentation](https://www.postgresql.org/docs/current/user-manag.html)).
+		users and roles are the same thingi (see <a
+		  href="https://www.postgresql.org/docs/current/user-manag.html)">Postgres
+		documentation</a>).<br/><br/>
 	   	The <code>S</code> modifier will allow to display system roles too.
        <code>du pattern</code> will match only roles macthing the specified <code>pattern</code>. The
 	   <code>+</code> midifier will display the description for each role.

@@ -5,7 +5,7 @@
 test
 laetitia=# \echo <code>date</code>
 Fri Jul 30 10:13:41 CEST 2021
-laetitia=# \echo -n <code>date</code>
+laetitia=# \echo -n &#96;date&#96;
 Fri Jul 30 10:13:47 CEST 2021laetitia=#</code></pre>This feature is available
 since iat least Postgres 7.1.
 	</div>

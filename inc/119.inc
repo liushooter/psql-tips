@@ -2,10 +2,10 @@
 	use <code>\qecho</code> if you'd like the result to be written inside a file you
 	specified using the <code>\o</code> metacommand.
       <pre><code class="hljs bash">laetitia=# \o /tmp/output.out
-laetitia=# \echo <code>date</code>
+laetitia=# \echo &#96;date&#96;
 Fri Jul 30 10:23:58 CEST 2021
 laetitia=# \! cat /tmp/output.out
-laetitia=# \qecho <code>date</code>
+laetitia=# \qecho &#96;date&#96;
 laetitia=# \! cat /tmp/output.out
 Fri Jul 30 10:24:25 CEST 2021</code></pre>This feature is available
 since at least Postgres 7.1.
