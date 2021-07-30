@@ -36,7 +36,7 @@
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="https://mydbanotebook.org">My DBA Notebook</a></li>
-        <li><a href="https://mydbanotebook.org/about/me/">About</a></li>
+        <li><a href="https://mydbanotebook.org/about/me/">About me</a></li>
       </ul>
     </section>
     <hamburger>
@@ -2621,7 +2621,7 @@ since at least Postgres 7.1.
     <div class="tip">
 	  <code>\dT</code> will display a list of data types. The <code>S</code> modifier will allow to
 	  list system data types too. <code>\dT pattern</code> will list data types matching
-	  the pattern. the <code>+</code> Internal name, size, Elements, Owner and Access
+	  the pattern. the <code>+</code> modifier will also display Internal name, size, Elements, Owner and Access
 	  privileges.
       <pre><code class="hljs bash">laetitia=# \dT
           List of data types
@@ -2644,6 +2644,199 @@ laetitia=# \dT+
  public | one_word_only | one_word_only | var  |          | laetitia |                   | 
 (1 row)</code></pre>This feature is available
 since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip112'>
+    <a href='#tip112'><h2 class='breath'>Psql Tip #112</h2></a>
+    <div class="tip">
+	  <code>\du</code> will display a list of users. Remember that since Postgres 8.1,
+		users and roles are the same thingi (see [Postgres
+		documentation](https://www.postgresql.org/docs/current/user-manag.html)).
+	   	The <code>S</code> modifier will allow to display system roles too.
+       <code>du pattern</code> will match only roles macthing the specified <code>pattern</code>. The
+	   <code>+</code> midifier will display the description for each role.
+      <pre><code class="hljs bash">laetitia=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {}
+
+laetitia=# \duS
+                                                                     List of roles
+         Role name         |                         Attributes                         |                          Member of                           
+---------------------------+------------------------------------------------------------+--------------------------------------------------------------
+ laetitia                  | Superuser                                                  | {}
+ pg_database_owner         | Cannot login                                               | {}
+ pg_execute_server_program | Cannot login                                               | {}
+ pg_monitor                | Cannot login                                               | {pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables}
+ pg_read_all_data          | Cannot login                                               | {}
+ pg_read_all_settings      | Cannot login                                               | {}
+ pg_read_all_stats         | Cannot login                                               | {}
+ pg_read_server_files      | Cannot login                                               | {}
+ pg_signal_backend         | Cannot login                                               | {}
+ pg_stat_scan_tables       | Cannot login                                               | {}
+ pg_write_all_data         | Cannot login                                               | {}
+ pg_write_server_files     | Cannot login                                               | {}
+ postgres                  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test                      |                                                            | {}
+
+laetitia=# \du+
+                                          List of roles
+ Role name |                         Attributes                         | Member of | Description 
+-----------+------------------------------------------------------------+-----------+-------------
+ laetitia  | Superuser                                                  | {}        | 
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}        | 
+ test      |                                                            | {}        | </code></pre>
+This feature is available since Postgres 7.2, but has been upgraded with 
+Postgres 8.4 to add the <code>+</code> modifier and in Postgres 9.6 to add the <code>S</code> modifier.
+	</div>
+   </div>
+   <div id='tip113'>
+    <a href='#tip113'><h2 class='breath'>Psql Tip #113</h2></a>
+    Since Postgres 8.1, groups and users are implemented as roles. It means there
+	is not difference between <code>\dg</code> and <code>\du</code>.
+    <div class="tip">
+      <pre><code class="hljs bash">laetitia=# \dg
+                                    List of roles
+ Role name |                         Attributes                         |  Member of  
+-----------+------------------------------------------------------------+-------------
+ grouptest | Cannot login                                               | {}
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {grouptest}
+
+laetitia=# \du
+                                    List of roles
+ Role name |                         Attributes                         |  Member of  
+-----------+------------------------------------------------------------+-------------
+ grouptest | Cannot login                                               | {}
+ laetitia  | Superuser                                                  | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ test      |                                                            | {grouptest}</code></pre>
+This feature is available since Postgres 8.1.
+	</div>
+   </div>
+   <div id='tip114'>
+    <a href='#tip114'><h2 class='breath'>Psql Tip #114</h2></a>
+    <div class="tip"> The <code>\dx</code> metacommand will display a list of installed
+	extensions. <code>\dx pattern</code> will display only extensions matching the given
+	pattern. The <code>+</code> modifier will allow to display a list of all the objects
+	belonging to each extension.
+	<pre><code class="hljs bash">laetitia=# \dx
+                 List of installed extensions
+  Name   | Version |   Schema   |         Description          
+---------+---------+------------+------------------------------
+ plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
+(1 row)
+
+laetitia=# \dx+
+      Objects in extension "plpgsql"
+            Object description             
+-------------------------------------------
+ function plpgsql_call_handler()
+ function plpgsql_inline_handler(internal)
+ function plpgsql_validator(oid)
+ language plpgsql
+(4 rows)</code></pre>This feature is available since Postgres 9.1.
+	</div>
+   </div>
+   <div id='tip115'>
+    <a href='#tip115'><h2 class='breath'>Psql Tip #115</h2></a>
+    <div class="tip"> The <code>\e</code> (or <code>\edit</code>) will open the current querry buffer
+	into the default editor (or the editor set by the <code>PSQL_EDITOR</code>, the
+	  <code>EDITOR</code> or the <code>VISUAL</code> variables.<br/><br/>
+
+	If none of those variables are set, the default editor is <code>vi</code> on Unix systems
+   	and <code>notepad.exe</code> under Windows. <br/><br/ >
+	This feature is available since at least Postgres 7.1 for Unix system and
+	since Postgres run under Windows for Windows version.
+	</div>
+   </div>
+   <div id='tip116'>
+    <a href='#tip116'><h2 class='breath'>Psql Tip #116</h2></a>
+    <div class="tip"> You can open a file under psql using the <code>\e filename</code>.
+	The file will open in the editor and after saving and exiting the editor, the content
+	of the file will be copied into the query buffer.<br/>
+	<br/>
+	If the modifications are not saved before the editor is quitted, the query
+	buffer is cleared.<br/><br/>
+	If a query ends by a semi-colon, it will be immediately executed. The file
+	can contain several queries.
+	</code>psql</code> will play the file as a single line command meanning that anything
+	right after a psql's metacoomand will be considered as an argument to the
+	metacommand even though there are some line breaks.<br/><br/>
+      This feature is available since at least Postgres 7.1.<br/>
+     Before Postgres 14, even if you didn't save the modifications before
+	 exiting, they were sent to the querry buffer (and immediately executed if
+	   ended by a semi-colon).
+	</div>
+   </div>
+   <div id='tip117'>
+    <a href='#tip117'><h2 class='breath'>Psql Tip #117</h2></a>
+    <div class="tip">You can use the metacommand <code>\e filename linenumber</code> to
+	open a file and position teh cursor directly on rge specified line.<br/>
+	If the filename is omitted, psql will open the current querry buffer (if
+	  empty the last executed query will be copied into the current querry
+	  buffer) and position the cursor on the specified line number. It means
+	  that if a single all-digits argument is given, psql will assume it's
+	  a line number.<br/>
+    If the line number specified is higher than the number of lines in the
+	querry buffer or in the file, the cursor will be positionned on the last
+	line.<br/>
+      This feature is available since Postgres 9.1.
+	</div>
+   </div>
+   <div id='tip118'>
+    <a href='#tip118'><h2 class='breath'>Psql Tip #118</h2></a>
+    <div class="tip"> Use <code>\echo</code> to display text or evaluated argument to the
+	standard output.<br/>
+	You can get rid of the trailing new line by using <code>-n</code> as a first argument.
+      <pre><code class="hljs bash">laetitia=# \echo test
+test
+laetitia=# \echo <code>date</code>
+Fri Jul 30 10:13:41 CEST 2021
+laetitia=# \echo -n <code>date</code>
+Fri Jul 30 10:13:47 CEST 2021laetitia=#</code></pre>This feature is available
+since iat least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip119'>
+    <a href='#tip119'><h2 class='breath'>Psql Tip #119</h2></a>
+    <div class="tip"> While <code>\echo</code> will send the result in the standard output,
+	use <code>\qecho</code> if you'd like the result to be written inside a file you
+	specified using the <code>\o</code> metacommand.
+      <pre><code class="hljs bash">laetitia=# \o /tmp/output.out
+laetitia=# \echo <code>date</code>
+Fri Jul 30 10:23:58 CEST 2021
+laetitia=# \! cat /tmp/output.out
+laetitia=# \qecho <code>date</code>
+laetitia=# \! cat /tmp/output.out
+Fri Jul 30 10:24:25 CEST 2021</code></pre>This feature is available
+since at least Postgres 7.1.
+	</div>
+   </div>
+   <div id='tip120'>
+    <a href='#tip120'><h2 class='breath'>Psql Tip #120</h2></a>
+    <div class="tip">The <code> \ef function</code> metacommand will open the <code>create or
+	replace function</code> (or <code>create or replace procedure</code>) containing the code of
+	the function (or procedure) you named.<br/>
+	If there are several functions with the same name, you will need to add the
+	signature of the function so psql knows which one needs modification.
+      <pre><code class="hljs bash">laetitia=# \df add_em
+                                 List of functions
+ Schema |  Name  | Result data type |          Argument data types           | Type 
+--------+--------+------------------+----------------------------------------+------
+ public | add_em | double precision | x double precision, y double precision | func
+ public | add_em | integer          | x integer, y integer                   | func
+(2 rows)
+
+laetitia=# \ef add_em
+ERROR:  more than one function named "add_em"
+laetitia=# \ef add_em(integer, integer)
+No changes</code></pre>This feature is available
+since Postgres 8.4. Procedures were added with Postgres 11.
 	</div>
    </div>
     <div class="breath">

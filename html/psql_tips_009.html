@@ -36,7 +36,7 @@
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="https://mydbanotebook.org">My DBA Notebook</a></li>
-        <li><a href="https://mydbanotebook.org/about/me/">About</a></li>
+        <li><a href="https://mydbanotebook.org/about/me/">About me</a></li>
       </ul>
     </section>
     <hamburger>

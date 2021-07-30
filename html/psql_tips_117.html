@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1">
+  <title>psql Tips</title>
+  <link rel="stylesheet" href="css/laetitia.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href=
+  "https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css">
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script>
+    function pickATip()
+    {
+      const maxTipNumber = 95;
+      var chosenOne=Math.floor(Math.random()*(maxTipNumber) + 1); //randomly pick one
+      document.location = "psql_tips_" + chosenOne.toString().padStart(3,0) + ".html";
+    }
+  </script>
+</head>
+<body class="Site">
+  <!-- **** Begin Fork-Me-On-Gitlab-Ribbon-HTML. See MIT License at https://gitlab.com/seanwasere/fork-me-on-gitlab **** -->
+  <a href="https://gitlab.com/l_avrot/psql-tips">
+      <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:#3379b7; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
+  </a>
+  <!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
+  <menu>
+    <label for="trigger">
+    <input id="trigger" type="checkbox" />
+    <section class="drawer-list">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="https://mydbanotebook.org">My DBA Notebook</a></li>
+        <li><a href="https://mydbanotebook.org/about/me/">About me</a></li>
+      </ul>
+    </section>
+    <hamburger>
+        <i></i>
+        <text>
+          <close>close</close>
+         <open>menu</open>
+        </text>
+    </hamburger>
+    </label>
+  </menu>
+  <header id="top">
+    <h1><code>psql</code> Tips</h1>
+  </header>
+  <main class="Site-content">
+    <h2 class='breath'>Psql Tip #117</h2>
+    <div class="tip">You can use the metacommand <code>\e filename linenumber</code> to
+	open a file and position teh cursor directly on rge specified line.<br/>
+	If the filename is omitted, psql will open the current querry buffer (if
+	  empty the last executed query will be copied into the current querry
+	  buffer) and position the cursor on the specified line number. It means
+	  that if a single all-digits argument is given, psql will assume it's
+	  a line number.<br/>
+    If the line number specified is higher than the number of lines in the
+	querry buffer or in the file, the cursor will be positionned on the last
+	line.<br/>
+      This feature is available since Postgres 9.1.
+	</div>
+    <div class="breath">
+      See <a href=
+      "https://www.postgresql.org/docs/current/app-psql.html">Postgres
+      documentation</a> for more information.
+    </div><a href="#" class="myButton" onclick=
+    "pickATip();">Try a new tip</a><a href="psql_tips_all.html" class="myButton"
+    >See them all</a>
+  </main>
+  <footer>
+    <p>Theme inspired by <a href=
+    "https://github.com/calintat/minimal">Minimal</a></p>
+  </footer>
+</body>
+</html>
+
