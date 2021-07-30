@@ -16,5 +16,5 @@ Then all the needed html and css files will be copied into a public directory.
 
 # How to display teh website
 
-Once built, you simply need to open the index.html file from the oublic
+Once built, you simply need to open the index.html file from the public
 directory in your favorite browser.
