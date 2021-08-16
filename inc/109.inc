@@ -1,5 +1,5 @@
     <div class="tip">
-	  The <code>\rds</code> meta-command will display the specific role based or database
+	  The <code>\drds</code> meta-command will display the specific role based or database
 	  based settings.
       <pre><code class="hljs bash">laetitia=# \drds
              List of settings

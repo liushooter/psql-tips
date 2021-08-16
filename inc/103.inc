@@ -1,6 +1,6 @@
     <div class="tip">
 	  <code>\copy</code> is different than the SQL command <code>copy</code> in that the <code>\copy</code>
-	  meta-command will be played from the client side without superuer
+	  meta-command will be played from the client side without superuser
 	  permissions while the <code>copy</code> SQL command needs database superuser or users
 	  users who are granted one of the default roles <code>pg_read_server_files</code>,
 	  <code>pg_write_server_files</code>, or <code>pg_execute_server_program</code>.

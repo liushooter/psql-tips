@@ -1,6 +1,6 @@
     <div class="tip">
 	  You can pass the name of the columns to use as Vertical and Horizontal
-	  headers to the <code>\croostabview</code> meta-command.
+	  headers to the <code>\crosstabview</code> meta-command.
       <pre><code class="hljs bash">laetitia=> select * from music ;
         artist         |       album       | year 
 -----------------------+-------------------+------

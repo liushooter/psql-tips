@@ -2431,7 +2431,7 @@ since at least Postgres 7.1.
     <a href='#tip103'><h2 class='breath'>Psql Tip #103</h2></a>
     <div class="tip">
 	  <code>\copy</code> is different than the SQL command <code>copy</code> in that the <code>\copy</code>
-	  meta-command will be played from the client side without superuer
+	  meta-command will be played from the client side without superuser
 	  permissions while the <code>copy</code> SQL command needs database superuser or users
 	  users who are granted one of the default roles <code>pg_read_server_files</code>,
 	  <code>pg_write_server_files</code>, or <code>pg_execute_server_program</code>.
@@ -2512,7 +2512,7 @@ since Postgres 9.6.
     <a href='#tip107'><h2 class='breath'>Psql Tip #107</h2></a>
     <div class="tip">
 	  You can pass the name of the columns to use as Vertical and Horizontal
-	  headers to the <code>\croostabview</code> meta-command.
+	  headers to the <code>\crosstabview</code> meta-command.
       <pre><code class="hljs bash">laetitia=> select * from music ;
         artist         |       album       | year 
 -----------------------+-------------------+------
@@ -2535,7 +2535,7 @@ since Postgres 9.6.
     <a href='#tip108'><h2 class='breath'>Psql Tip #108</h2></a>
     <div class="tip">
 	  You can pass the number of the columns to use as Vertical and Horizontal
-	  headers to the <code>\croostabview</code> meta-command as you would use number of
+	  headers to the <code>\crosstabview</code> meta-command as you would use number of
 	  columns in an <code>order by</code> SQL clause.
       <pre><code class="hljs bash">laetitia=> select * from music ;
         artist         |       album       | year 
@@ -2558,7 +2558,7 @@ since Postgres 9.6.
    <div id='tip109'>
     <a href='#tip109'><h2 class='breath'>Psql Tip #109</h2></a>
     <div class="tip">
-	  The <code>\rds</code> meta-command will display the specific role based or database
+	  The <code>\drds</code> meta-command will display the specific role based or database
 	  based settings.
       <pre><code class="hljs bash">laetitia=# \drds
              List of settings
