@@ -2841,6 +2841,51 @@ No changes</code></pre>This feature is available
 since Postgres 8.4. Procedures were added with Postgres 11.
 	</div>
    </div>
+   <div id='tip121'>
+    <a href='#tip121'><h2 class='breath'>Psql Tip #121</h2></a>
+    <div class="tip">The <code> \ef function linenumber</code> metacommand will open the <code>create or
+	replace function</code> (or <code>create or replace procedure</code>) containing the code of
+	the function (or procedure) you named and will position the cursor directly
+	to the line number specified.
+	  <script id="asciicast-434930" src="https://asciinema.org/a/434930.js"
+	  async></script>
+      This feature is available since Postgres 9.1. Procedures were added with Postgres 11.
+	</div>
+   </div>
+   <div id='tip122'>
+    <a href='#tip122'><h2 class='breath'>Psql Tip #122</h2></a>
+    <div class="tip">The <code> \ef function</code> metacommand will open the <code>create or
+	replace function</code> (or <code>create or replace procedure</code>) containing the code of
+	the function (or procedure) you named.<br/><br/>
+	If no function name is specified, a <code>create function</code> template is created.
+	<script id="asciicast-434932" src="https://asciinema.org/a/434932.js"
+	async></script>
+      This feature is available
+since Postgres 9.1. Procedures were added with Postgres 11.
+	</div>
+   </div>
+   <div id='tip123'>
+    <a href='#tip123'><h2 class='breath'>Psql Tip #123</h2></a>
+    <div class="tip">The <code> \ev view</code> metacommand will open the <code>create or
+	replace view</code> containing the SQL code of
+	the view you named.<br/><br/>
+      <pre><code class="hljs bash">laetitia=# \dv connection_settings
+               List of relations
+ Schema |        Name         | Type |  Owner
+--------+---------------------+------+----------
+ public | connection_settings | view | laetitia
+(1 row)
+
+laetitia=# \ev connection_settings
+laetitia=# CREATE OR REPLACE VIEW public.connection_settings AS
+ SELECT pg_settings.name,
+    pg_settings.setting,
+    pg_settings.unit
+   FROM pg_settings
+  WHERE pg_settings.name ~ 'connection'::text</code></pre>This feature is available
+since Postgres 8.4. Procedures were added with Postgres 11.
+	</div>
+   </div>
     <div class="breath">
       See <a href=
       "https://www.postgresql.org/docs/current/app-psql.html">Postgres
