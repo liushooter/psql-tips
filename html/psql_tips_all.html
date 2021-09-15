@@ -2847,7 +2847,7 @@ since Postgres 8.4. Procedures were added with Postgres 11.
 	replace function</code> (or <code>create or replace procedure</code>) containing the code of
 	the function (or procedure) you named and will position the cursor directly
 	to the line number specified.
-	  <script id="asciicast-434930" src="https://asciinema.org/a/434930.js" data-rows="20"
+	  <script id="asciicast-434945" src="https://asciinema.org/a/434945.js" data-rows="20"
 	  async></script>
       This feature is available since Postgres 9.1. Procedures were added with Postgres 11.
 	</div>
@@ -2858,7 +2858,7 @@ since Postgres 8.4. Procedures were added with Postgres 11.
 	replace function</code> (or <code>create or replace procedure</code>) containing the code of
 	the function (or procedure) you named.<br/><br/>
 	If no function name is specified, a <code>create function</code> template is created.
-	<script id="asciicast-434932" src="https://asciinema.org/a/434932.js" data-rows="20"
+	<script id="asciicast-434946" src="https://asciinema.org/a/434946.js" data-rows="20"
 	async></script>
       This feature is available
 since Postgres 9.1. Procedures were added with Postgres 11.
@@ -2883,7 +2883,28 @@ laetitia=# CREATE OR REPLACE VIEW public.connection_settings AS
     pg_settings.unit
    FROM pg_settings
   WHERE pg_settings.name ~ 'connection'::text</code></pre>This feature is available
-since Postgres 8.4. Procedures were added with Postgres 11.
+since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip124'>
+    <a href='#tip124'><h2 class='breath'>Psql Tip #124</h2></a>
+    <div class="tip">The <code> \ev view</code> metacommand will open the <code>create or
+	replace view</code> containing the SQL code of
+	the view you named.<br/><br/>
+	If no view name is specified, a <code>create view</code> template is created.
+	  <script id="asciicast-435824" src="https://asciinema.org/a/435824.js" data-rows="20"
+	  async></script>
+      This feature is available since Postgres 9.6.
+	</div>
+   </div>
+   <div id='tip125'>
+    <a href='#tip125'><h2 class='breath'>Psql Tip #125</h2></a>
+    <div class="tip">The <code> \ev view linenumber</code> metacommand will open the <code>create or
+	replace view</code> containing the code of the view you named and will position the cursor directly
+	to the line number specified.
+	  <script id="asciicast-435826" src="https://asciinema.org/a/435826.js" data-rows="20"
+	  async></script>
+      This feature is available since Postgres 9.6.
 	</div>
    </div>
     <div class="breath">

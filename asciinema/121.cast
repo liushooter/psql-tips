@@ -1,4 +1,4 @@
-{"version": 2, "width": 238, "height": 71, "timestamp": 1631276480, "title": "psql \\ev", "env": {"SHELL": "/bin/bash", "TERM": "screen"}}
+{"version": 2, "width": 238, "height": 71, "timestamp": 1631276480, "title": "psql \\ef", "env": {"SHELL": "/bin/bash", "TERM": "screen"}}
 [0.132008, "o", "psql (15devel)\r\nType \"help\" for help.\r\n\r\n"]
 [0.145802, "o", "laetitia=# "]
 [1.313028, "o", "\\"]

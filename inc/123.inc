@@ -15,5 +15,5 @@ laetitia=# CREATE OR REPLACE VIEW public.connection_settings AS
     pg_settings.unit
    FROM pg_settings
   WHERE pg_settings.name ~ 'connection'::text</code></pre>This feature is available
-since Postgres 8.4. Procedures were added with Postgres 11.
+since Postgres 9.6.
 	</div>
