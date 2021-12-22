@@ -1,6 +1,6 @@
     <div class="tip">
       The default delimiter for text entry in stdin (either using the <code>\copy</code>
-		meta-command or the <code>copy</code> SQL command) is a tabulation.
+		meta-command or the <code>copy</code> SQL command) is a tab character.
 		<pre><code class="hljs bash">laetitia=> create table data(d1 integer, d2 date);
 CREATE TABLE
 laetitia=> \copy data from stdin

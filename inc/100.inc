@@ -1,7 +1,7 @@
     <div class="tip">
 	  the <code>n</code> modifier appended to the <code>dP</code> metacommand will list also
 	  non-root partitioned tables and ndexes. A column displaying also the
-	  parent name is added to teh result.
+	  parent name is added to the result.
       <pre><code class="hljs bash">laetitia=# \dPn
                                 List of partitioned relations
  Schema |         Name          |  Owner   |       Type        | Parent name |     Table      
