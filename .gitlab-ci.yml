@@ -6,6 +6,7 @@ pages:
     - mkdir .public
     - cp html/* .public
     - cp -r css .public
+    - cp -r images .public
     - mv .public public
   artifacts:
     paths:
