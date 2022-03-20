@@ -1,6 +1,6 @@
     <div class="tip" name="18">
       The <code>-h hostname</code> or <code>--hostname
-      hostname</code> flag will allow you do provide a host psql
+      hostname</code> flag will allow you to provide a host psql
       will connect to.
       <pre><code class="hljs bash">laetitia:~$ psql -h localhost
 psql (14devel)

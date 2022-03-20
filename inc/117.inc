@@ -1,5 +1,5 @@
     <div class="tip">You can use the metacommand <code>\e filename linenumber</code> to
-	open a file and position teh cursor directly on the specified
+	open a file and position the cursor directly on the specified
 	line.<br/><br/>
 	If the filename is omitted, psql will open the current querry buffer (if
 	  empty the last executed query will be copied into the current querry

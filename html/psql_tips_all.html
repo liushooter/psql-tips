@@ -389,7 +389,7 @@ laetitia:~$ psql -c 'select count(*) from test;' -c ' select * from test;'
     <a href='#tip018'><h2 class='breath'>Psql Tip #018</h2></a>
     <div class="tip" name="18">
       The <code>-h hostname</code> or <code>--hostname
-      hostname</code> flag will allow you do provide a host psql
+      hostname</code> flag will allow you to provide a host psql
       will connect to.
       <pre><code class="hljs bash">laetitia:~$ psql -h localhost
 psql (14devel)
@@ -1104,7 +1104,7 @@ since at least Postgres 7.1.
     <a href='#tip047'><h2 class='breath'>Psql Tip #047</h2></a>
     <div class="tip">
 	  The <code>psql</code> prompt will nicely and discreetly (as a real gentleman) remind
-	  you a quote, a double quote or a parentethis is open but not closed.
+	  you a quote, a double quote or a parenthesis is open but not closed.
       <pre><code class="hljs bash">laetitia=# select '
 laetitia'# 
 laetitia=# select (
@@ -2372,7 +2372,7 @@ since Postgres 12.
     <div class="tip">
 	  the <code>n</code> modifier appended to the <code>dP</code> metacommand will list also
 	  non-root partitioned tables and ndexes. A column displaying also the
-	  parent name is added to teh result.
+	  parent name is added to the result.
       <pre><code class="hljs bash">laetitia=# \dPn
                                 List of partitioned relations
  Schema |         Name          |  Owner   |       Type        | Parent name |     Table      
@@ -2468,7 +2468,7 @@ since at least Postgres 7.1.
     <a href='#tip105'><h2 class='breath'>Psql Tip #105</h2></a>
     <div class="tip">
       The default delimiter for text entry in stdin (either using the <code>\copy</code>
-		meta-command or the <code>copy</code> SQL command) is a tabulation.
+		meta-command or the <code>copy</code> SQL command) is a tab character.
 		<pre><code class="hljs bash">laetitia=> create table data(d1 integer, d2 date);
 CREATE TABLE
 laetitia=> \copy data from stdin
@@ -2650,12 +2650,12 @@ since at least Postgres 7.1.
     <a href='#tip112'><h2 class='breath'>Psql Tip #112</h2></a>
     <div class="tip">
 	  <code>\du</code> will display a list of users. Remember that since Postgres 8.1,
-		users and roles are the same thingi (see <a
+		users and roles are the same thing (see <a
 		  href="https://www.postgresql.org/docs/current/user-manag.html)">Postgres
 		documentation</a>).<br/><br/>
 	   	The <code>S</code> modifier will allow to display system roles too.
        <code>du pattern</code> will match only roles macthing the specified <code>pattern</code>. The
-	   <code>+</code> midifier will display the description for each role.
+	   <code>+</code> modifier will display the description for each role.
       <pre><code class="hljs bash">laetitia=# \du
                                    List of roles
  Role name |                         Attributes                         | Member of 
@@ -2765,19 +2765,19 @@ laetitia=# \dx+
 	buffer is cleared.<br/><br/>
 	If a query ends by a semi-colon, it will be immediately executed. The file
 	can contain several queries.
-	</code>psql</code> will play the file as a single line command meanning that anything
+	</code>psql</code> will play the file as a single line command meaning that anything
 	right after a psql's metacoomand will be considered as an argument to the
 	metacommand even though there are some line breaks.<br/><br/>
       This feature is available since at least Postgres 7.1.<br/>
      Before Postgres 14, even if you didn't save the modifications before
-	 exiting, they were sent to the querry buffer (and immediately executed if
+	 exiting, they were sent to the query buffer (and immediately executed if
 	   ended by a semi-colon).
 	</div>
    </div>
    <div id='tip117'>
     <a href='#tip117'><h2 class='breath'>Psql Tip #117</h2></a>
     <div class="tip">You can use the metacommand <code>\e filename linenumber</code> to
-	open a file and position teh cursor directly on the specified
+	open a file and position the cursor directly on the specified
 	line.<br/><br/>
 	If the filename is omitted, psql will open the current querry buffer (if
 	  empty the last executed query will be copied into the current querry

@@ -1,6 +1,6 @@
     <div class="tip">
 	  The <code>psql</code> prompt will nicely and discreetly (as a real gentleman) remind
-	  you a quote, a double quote or a parentethis is open but not closed.
+	  you a quote, a double quote or a parenthesis is open but not closed.
       <pre><code class="hljs bash">laetitia=# select '
 laetitia'# 
 laetitia=# select (
